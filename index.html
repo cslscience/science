@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>科學每日趣聞 · Science Daily</title>
+<title>香港布廠商會朱石麟中學科學小天地</title>
 <meta name="description" content="每天一個科學小驚喜 · A daily science surprise for secondary students">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,10 +39,11 @@
   .top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
        backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
        border-bottom:1px solid var(--line)}
-  .top .wrap{display:flex;align-items:center;gap:12px;height:60px}
+  .top .wrap{display:flex;align-items:center;gap:12px;min-height:60px;padding-top:8px;padding-bottom:8px}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0}
   .brand svg{flex:none}
-  .brand b{font-weight:900;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand b{display:block;font-weight:900;font-size:1.05rem;line-height:1.3}
+  @media (max-width:479px){ .brand b{font-size:.86rem;text-wrap:balance} .brand small{font-size:.68rem} }
   .brand small{display:block;color:var(--muted);font-size:.72rem;font-weight:500;line-height:1.2}
   .spacer{flex:1}
   .lang-btn{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;
@@ -344,9 +345,9 @@
    SETTINGS — the only part you normally need to change
    ========================================================================= */
 const CONFIG = {
-  SITE_NAME:    { zh: "科學每日趣聞", en: "Science Daily" },
+  SITE_NAME:    { zh: "香港布廠商會朱石麟中學科學小天地", en: "HKWMA Chu Shek Lun Secondary School Science Corner" },
   SITE_TAGLINE: { zh: "每天一個科學小驚喜", en: "A science surprise every day" },
-  FOOTER:       { zh: "內容由科學科老師更新", en: "Content updated by our science teachers" },
+  FOOTER:       { zh: "Powered by Mr Jason Wong", en: "Powered by Mr Jason Wong" },
 
   // Paste the two "Publish to web → CSV" links from your Google Sheet here.
   // Leave them empty ("") to show the built-in sample content.
@@ -719,7 +720,10 @@ function renderNotices() {
     const dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) { goNotice(state.nIdx + (dx < 0 ? 1 : -1)); restartNoticeTimer(); }
   });
-  sec.querySelectorAll("img").forEach(im => im.addEventListener("load", () => goNotice(state.nIdx, true)));
+  // re-measure whenever a notice changes size (web font finishing loading, a picture loading, screen rotating)
+  sec.querySelectorAll("img").forEach(im => im.addEventListener("load", fitNotices));
+  if (window.ResizeObserver) { state.nRO?.disconnect(); state.nRO = new ResizeObserver(fitNotices); sec.querySelectorAll(".n-slide").forEach(s => state.nRO.observe(s)); }
+  document.fonts?.ready.then(fitNotices);
   goNotice(state.nIdx, true);
   restartNoticeTimer();
 }
@@ -731,12 +735,17 @@ function goNotice(i, instant) {
   state.nIdx = ((i % n) + n) % n;
   if (instant) track.style.transition = "none";
   track.style.transform = `translateX(-${state.nIdx * 100}%)`;
-  // keep the box as tall as the tallest notice, so the page below never jumps while sliding
-  vp.style.height = Math.max(...[...slides].map(s => s.offsetHeight)) + "px";
+  fitNotices();
   if (instant) { void track.offsetWidth; track.style.transition = ""; }
   [...slides].forEach((s, k) => s.setAttribute("aria-hidden", k !== state.nIdx));
   document.querySelectorAll(".n-dot").forEach((d, k) => d.setAttribute("aria-current", k === state.nIdx));
   const c = $("#nCount"); if (c) c.textContent = `${state.nIdx + 1} / ${n}`;
+}
+// keep the box as tall as the tallest notice, so nothing is cut off and the page below never jumps while sliding
+function fitNotices() {
+  const vp = $(".n-viewport"), track = $(".n-track"); if (!vp || !track) return;
+  const h = Math.max(0, ...[...track.children].map(s => s.offsetHeight));
+  if (h) vp.style.height = h + "px";          // h is 0 while the page is hidden (e.g. on another tab) — keep the old value
 }
 function restartNoticeTimer() {
   clearInterval(state.nTimer);
@@ -819,7 +828,7 @@ function renderTeachers() {
 
 function applyStatic() {
   document.documentElement.lang = state.lang === "zh" ? "zh-Hant-HK" : "en";
-  document.title = `${CONFIG.SITE_NAME[state.lang]} · ${state.lang === "zh" ? CONFIG.SITE_NAME.en : CONFIG.SITE_NAME.zh}`;
+  document.title = CONFIG.SITE_NAME[state.lang];
   $("#siteName").textContent = CONFIG.SITE_NAME[state.lang];
   $("#siteTagline").textContent = CONFIG.SITE_TAGLINE[state.lang];
   $("#footer").textContent = CONFIG.FOOTER[state.lang];
@@ -855,7 +864,7 @@ $("#langBtn").addEventListener("click", () => {
   render();
 });
 window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
-window.addEventListener("resize", () => goNotice(state.nIdx, true));
+window.addEventListener("resize", fitNotices);
 
 $("#chips").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if (!b) return;
