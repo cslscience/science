@@ -173,7 +173,16 @@
   .notice-item h3{margin:2px 0 0;font-size:1rem;line-height:1.45}
   .notice-item p{margin:4px 0 0;white-space:pre-line;font-size:.93rem}
   .notice-item a{font-size:.88rem;font-weight:700}
-  .notices .more-toggle{margin-top:8px;display:inline-block}
+  .n-count{margin-left:auto;font-size:.8rem;color:var(--muted);font-weight:700}
+  .n-viewport{overflow:hidden}
+  .n-track{display:flex;align-items:flex-start;transition:transform .55s ease}
+  .n-slide{flex:0 0 100%;min-width:0;border-top:0!important;padding:4px 2px 6px}
+  .n-dots{display:flex;justify-content:center;gap:4px;margin-top:6px}
+  .n-dot{all:unset;cursor:pointer;width:22px;height:22px;display:grid;place-items:center}
+  .n-dot::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--line);transition:width .25s,background .25s}
+  .n-dot[aria-current="true"]::before{width:22px;background:#e0a100}
+  .n-dot:focus-visible{outline:2px solid var(--accent);border-radius:6px}
+  @media (prefers-reduced-motion: reduce){ .n-track,.n-viewport{transition:none} }
 
   /* Notices + Upcoming row on the home page */
   .info-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:16px}
@@ -344,7 +353,8 @@ const CONFIG = {
   FACTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=339792574&single=true&output=csv",
   LINKS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=805858119&single=true&output=csv",
   NOTICES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000001&single=true&output=csv",
-  NOTICES_SHOWN: 5,     // notices shown before "Show all"
+  NOTICES_SHOWN: 8,     // maximum notices in the carousel
+  NOTICE_SECONDS: 5,    // seconds before the carousel slides to the next notice
   CALENDAR_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000002&single=true&output=csv",
   UPCOMING_SHOWN: 3,    // upcoming dates shown on the home page
 
@@ -393,7 +403,7 @@ const STR = {
     weekdays:["日","一","二","三","四","五","六"], monthTitle:(y,m)=>`${y}年${m}月`
   },
   en: {
-    navFacts:"Science Fun Facts", navTeachers:"Teacher Zone", today:"Today's Fun Fact", latest:"Latest Fun Fact",
+    navFacts:"Fun Facts", navTeachers:"Teacher Zone", today:"Today's Fun Fact", latest:"Latest Fun Fact",
     archive:"Fact Archive", all:"All", searchFacts:"Search facts…", more:"Load more", readMore:"Read more",
     readLess:"Show less", learnMore:"Learn more", watchYT:"Watch on YouTube ↗", play:"Play video",
     empty:"No fun facts yet — stay tuned!", noMatch:"No matching facts", loading:"Loading…",
@@ -468,7 +478,7 @@ const SAMPLE_LINKS = [
    App code — no need to edit below this line
    ========================================================================= */
 const $ = s => document.querySelector(s);
-const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], noticesAll: false, events: [], calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
+const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], nIdx: 0, nTimer: 0, nHover: false,events: [], calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
                 linkQ: "", unlocked: false, loaded: false };
 
 try { const l = localStorage.getItem("sd_lang"); if (l === "zh" || l === "en") state.lang = l; } catch (e) {}
@@ -680,19 +690,59 @@ function shiftMonth(n) {
 function renderNotices() {
   const box = $("#notices");
   if (!state.notices.length) { box.innerHTML = ""; return; }
-  const list = state.noticesAll ? state.notices : state.notices.slice(0, CONFIG.NOTICES_SHOWN);
-  box.innerHTML = `<section class="notices" aria-label="${esc(t("notices"))}">
-    <div class="notices-head"><span aria-hidden="true">📢</span><h2>${esc(t("notices"))}</h2></div>
-    ${list.map(r => { const u = safeUrl(r.link), body = L(r, "content");
-      return `<div class="notice-item">
+  const list = state.notices.slice(0, CONFIG.NOTICES_SHOWN);
+  if (state.nIdx >= list.length) state.nIdx = 0;
+  box.innerHTML = `<section class="notices" aria-label="${esc(t("notices"))}" aria-roledescription="carousel">
+    <div class="notices-head"><span aria-hidden="true">📢</span><h2>${esc(t("notices"))}</h2>
+      ${list.length > 1 ? `<span class="n-count" id="nCount"></span>` : ""}</div>
+    <div class="n-viewport"><div class="n-track">
+    ${list.map((r, i) => { const u = safeUrl(r.link), body = L(r, "content");
+      return `<div class="n-slide notice-item" role="group" aria-label="${i + 1} / ${list.length}">
         <div class="n-meta">${r.pinned ? `<span class="pin">${esc(t("pinned"))}</span>` : ""}<span>${esc(fmtDate(r.date))}</span></div>
         <h3>${esc(L(r, "title"))}</h3>
         ${body ? `<p>${esc(body)}</p>` : ""}
         ${imgHTML(r, "n-pic")}
         ${u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t("details"))} ↗</a>` : ""}
       </div>`; }).join("")}
-    ${state.notices.length > CONFIG.NOTICES_SHOWN ? `<button class="more-toggle notices-toggle" type="button">${esc(t(state.noticesAll ? "showLess" : "showAll"))}</button>` : ""}
+    </div></div>
+    ${list.length > 1 ? `<div class="n-dots">${list.map((_, i) => `<button type="button" class="n-dot" data-i="${i}" aria-label="${i + 1}"></button>`).join("")}</div>` : ""}
   </section>`;
+  const sec = box.querySelector(".notices");
+  sec.addEventListener("mouseenter", () => { state.nHover = true; });
+  sec.addEventListener("mouseleave", () => { state.nHover = false; });
+  sec.addEventListener("focusin", () => { state.nHover = true; });
+  sec.addEventListener("focusout", () => { state.nHover = false; });
+  let x0 = null;
+  sec.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; state.nHover = true; }, { passive: true });
+  sec.addEventListener("touchend", e => {
+    state.nHover = false; if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) { goNotice(state.nIdx + (dx < 0 ? 1 : -1)); restartNoticeTimer(); }
+  });
+  sec.querySelectorAll("img").forEach(im => im.addEventListener("load", () => goNotice(state.nIdx, true)));
+  goNotice(state.nIdx, true);
+  restartNoticeTimer();
+}
+
+/* carousel helpers */
+function goNotice(i, instant) {
+  const track = $(".n-track"), vp = $(".n-viewport"); if (!track) return;
+  const slides = track.children, n = slides.length; if (!n) return;
+  state.nIdx = ((i % n) + n) % n;
+  if (instant) track.style.transition = "none";
+  track.style.transform = `translateX(-${state.nIdx * 100}%)`;
+  // keep the box as tall as the tallest notice, so the page below never jumps while sliding
+  vp.style.height = Math.max(...[...slides].map(s => s.offsetHeight)) + "px";
+  if (instant) { void track.offsetWidth; track.style.transition = ""; }
+  [...slides].forEach((s, k) => s.setAttribute("aria-hidden", k !== state.nIdx));
+  document.querySelectorAll(".n-dot").forEach((d, k) => d.setAttribute("aria-current", k === state.nIdx));
+  const c = $("#nCount"); if (c) c.textContent = `${state.nIdx + 1} / ${n}`;
+}
+function restartNoticeTimer() {
+  clearInterval(state.nTimer);
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !$(".n-track") || $(".n-track").children.length < 2) return;
+  state.nTimer = setInterval(() => { if (!state.nHover && !document.hidden) goNotice(state.nIdx + 1); }, CONFIG.NOTICE_SECONDS * 1000);
 }
 
 function renderHero() {
@@ -805,6 +855,7 @@ $("#langBtn").addEventListener("click", () => {
   render();
 });
 window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
+window.addEventListener("resize", () => goNotice(state.nIdx, true));
 
 $("#chips").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if (!b) return;
@@ -829,7 +880,8 @@ document.addEventListener("click", e => {
     y.replaceWith(f);
     return;
   }
-  if (e.target.closest(".notices-toggle")) { state.noticesAll = !state.noticesAll; renderNotices(); return; }
+  const nd = e.target.closest(".n-dot");
+  if (nd) { goNotice(Number(nd.dataset.i)); restartNoticeTimer(); return; }
   const m = e.target.closest(".more-toggle");
   if (m) {
     const p = m.previousElementSibling, open = p.classList.toggle("clamp");
