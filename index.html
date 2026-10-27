@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>科學每日趣聞 · Science Daily</title>
+<meta name="description" content="每天一個科學小驚喜 · A daily science surprise for secondary students">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AC%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f6f4ee; --surface:#ffffff; --surface-2:#f0ede4; --ink:#1d2433; --muted:#5d6577;
+    --line:#e3dfd3; --accent:#0f8b8d; --accent-ink:#ffffff; --accent-soft:#d9f0ef;
+    --warn-bg:#fff4d6; --warn-ink:#6b4e00; --danger:#c0392b;
+    --radius:16px; --shadow:0 1px 2px rgba(29,36,51,.06),0 6px 20px rgba(29,36,51,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151c; --surface:#1b2029; --surface-2:#232937; --ink:#eef1f6; --muted:#a3acbd;
+      --line:#2e3545; --accent:#3cc6c8; --accent-ink:#0b1a1b; --accent-soft:#163536;
+      --warn-bg:#3a3017; --warn-ink:#f3d98b; --danger:#ff7b6b;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang HK","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent)}
+  button,input{font:inherit;color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+  /* Header */
+  .top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+       backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
+       border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;gap:12px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0}
+  .brand svg{flex:none}
+  .brand b{font-weight:900;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand small{display:block;color:var(--muted);font-size:.72rem;font-weight:500;line-height:1.2}
+  .spacer{flex:1}
+  .lang-btn{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;
+            padding:6px 14px;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap}
+  .lang-btn:hover{border-color:var(--accent)}
+
+  /* Tabs */
+  .tabs{display:flex;gap:6px;padding:14px 0 4px}
+  .tabs a{flex:1;max-width:220px;text-align:center;text-decoration:none;color:var(--muted);font-weight:700;
+          padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1.5px solid transparent}
+  .tabs a.active{color:var(--accent-ink);background:var(--accent)}
+  .tabs a:not(.active):hover{border-color:var(--line);color:var(--ink)}
+
+  .notice{background:var(--warn-bg);color:var(--warn-ink);border-radius:12px;padding:10px 14px;margin:12px 0 0;font-size:.9rem}
+
+  main{padding:8px 0 48px}
+  h2{font-size:1.25rem;margin:0}
+
+  /* Hero (today's fact) */
+  .hero{margin-top:16px;background:var(--surface);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;
+        display:grid;grid-template-columns:1fr;border:1px solid var(--line)}
+  .hero-body{padding:22px 20px 22px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.04em;
+           color:var(--accent);text-transform:uppercase}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .hero h1{font-size:clamp(1.5rem,4.6vw,2.2rem);line-height:1.25;margin:10px 0 10px;font-weight:900}
+  .hero .text{font-size:1.05rem;white-space:pre-line;margin:0}
+  .hero .video{margin:0}
+  @media (min-width:860px){
+    .hero.has-video{grid-template-columns:1.1fr 1fr}
+    .hero.has-video .hero-media{order:2;padding:22px 22px 22px 0}
+    .hero-body{padding:30px 30px}
+  }
+  .hero-media{padding:0 20px 20px}
+
+  .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:6px;font-size:.85rem;color:var(--muted)}
+  .topic{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;
+         color:#fff;background:var(--c,#64748b)}
+
+  /* Video */
+  .video figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+  .yt-box{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+  .yt{all:unset;cursor:pointer;position:absolute;inset:0;background-size:cover;background-position:center;display:block}
+  .yt::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.35))}
+  .yt .play{position:absolute;left:50%;top:50%;width:68px;height:48px;transform:translate(-50%,-50%);z-index:1;
+            background:#ff0033;border-radius:14px;transition:transform .15s}
+  .yt .play::before{content:"";position:absolute;left:27px;top:14px;border-style:solid;border-width:10px 0 10px 17px;
+                    border-color:transparent transparent transparent #fff}
+  .yt:hover .play,.yt:focus-visible .play{transform:translate(-50%,-50%) scale(1.08)}
+  .yt:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+  .yt-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .yt-link{display:inline-block;font-size:.82rem;margin-top:4px}
+
+  .btn-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:700;text-decoration:none;
+            padding:8px 14px;border-radius:10px;background:var(--accent-soft);color:var(--accent)}
+  .btn-link:hover{filter:brightness(.97)}
+
+  /* Archive */
+  .archive-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:36px 0 12px}
+  .archive-head .count{color:var(--muted);font-size:.9rem}
+  .search{flex:1 1 220px;max-width:360px;margin-left:auto;padding:10px 14px;border-radius:12px;
+          border:1.5px solid var(--line);background:var(--surface)}
+  .search:focus{outline:none;border-color:var(--accent)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;
+        font-weight:700;font-size:.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+  .chip i{width:9px;height:9px;border-radius:50%;background:var(--c,var(--muted));display:inline-block}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media (min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;
+        box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-width:0}
+  .card h3{margin:0;font-size:1.05rem;line-height:1.4}
+  .card .text{margin:0;white-space:pre-line;font-size:.95rem}
+  .clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .more-toggle{all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:.88rem}
+  .card .btn-link{margin-top:4px;align-self:flex-start;font-size:.88rem}
+  .load-more{display:block;margin:20px auto 0;border:1.5px solid var(--line);background:var(--surface);
+             padding:10px 22px;border-radius:12px;font-weight:700;cursor:pointer}
+  .empty{color:var(--muted);text-align:center;padding:30px 10px;grid-column:1/-1}
+
+  /* Teacher zone */
+  .lock{max-width:420px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;
+        box-shadow:var(--shadow);padding:28px 24px;text-align:center}
+  .lock .icon{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent);
+              display:grid;place-items:center;margin:0 auto 12px}
+  .lock h2{margin-bottom:4px}
+  .lock p{color:var(--muted);margin:0 0 18px}
+  .lock form{display:flex;gap:8px}
+  .lock input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg)}
+  .lock input:focus{outline:none;border-color:var(--accent)}
+  .primary{border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:11px 18px;border-radius:12px;cursor:pointer}
+  .err{color:var(--danger);font-size:.9rem;min-height:1.4em;margin-top:10px}
+  .shake{animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+
+  .t-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:24px 0 8px}
+  .ghost{border:1.5px solid var(--line);background:transparent;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+  .group{margin-top:22px}
+  .group > h3{font-size:1rem;margin:0 0 10px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .group > h3::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .link-card{text-decoration:none;color:var(--ink);transition:transform .12s,border-color .12s}
+  .link-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .link-card .desc{color:var(--muted);font-size:.9rem;margin:0}
+  .link-card .host{font-size:.78rem;color:var(--accent);font-weight:700;margin-top:auto;word-break:break-all}
+
+  .tool{max-width:560px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .tool code{display:block;word-break:break-all;background:var(--surface-2);padding:12px;border-radius:10px;margin:12px 0;font-size:.85rem}
+
+  .status{text-align:center;color:var(--muted);padding:60px 10px}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;text-align:center;padding:22px 16px 30px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#facts">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="var(--accent)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.8">
+          <ellipse cx="20" cy="20" rx="13" ry="5"/>
+          <ellipse cx="20" cy="20" rx="13" ry="5" transform="rotate(60 20 20)"/>
+          <ellipse cx="20" cy="20" rx="13" ry="5" transform="rotate(-60 20 20)"/>
+        </g>
+        <circle cx="20" cy="20" r="2.6" fill="#fff"/>
+      </svg>
+      <span><b id="siteName"></b><small id="siteTagline"></small></span>
+    </a>
+    <div class="spacer"></div>
+    <button id="langBtn" class="lang-btn" type="button"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="tabs">
+    <a href="#facts" data-route="facts" data-i18n="navFacts"></a>
+    <a href="#teachers" data-route="teachers" data-i18n="navTeachers"></a>
+  </nav>
+  <div id="notice" class="notice" hidden></div>
+
+  <main>
+    <div id="status" class="status"></div>
+
+    <!-- ===== General information ===== -->
+    <section id="view-facts" hidden>
+      <div id="hero"></div>
+      <div class="archive-head">
+        <h2 data-i18n="archive"></h2>
+        <span class="count" id="factCount"></span>
+        <input id="factSearch" class="search" type="search" data-i18n-ph="searchFacts">
+      </div>
+      <div id="chips" class="chips" role="toolbar"></div>
+      <div id="archive" class="grid"></div>
+      <button id="moreBtn" class="load-more" type="button" data-i18n="more" hidden></button>
+    </section>
+
+    <!-- ===== 教師專區 ===== -->
+    <section id="view-teachers" hidden>
+      <div id="lockBox" class="lock">
+        <div class="icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <h2 data-i18n="lockTitle"></h2>
+        <p data-i18n="lockDesc"></p>
+        <form id="lockForm" autocomplete="off">
+          <input id="passInput" type="password" data-i18n-ph="passPh" aria-label="Passcode">
+          <button class="primary" type="submit" data-i18n="enter"></button>
+        </form>
+        <div id="lockErr" class="err" role="alert"></div>
+      </div>
+
+      <div id="teacherArea" hidden>
+        <div class="t-head">
+          <h2 data-i18n="teacherLinks"></h2>
+          <input id="linkSearch" class="search" type="search" data-i18n-ph="searchLinks">
+          <button id="lockBtn" class="ghost" type="button" data-i18n="lock"></button>
+        </div>
+        <div id="linkGroups"></div>
+      </div>
+    </section>
+
+    <!-- ===== Passcode maker (open index.html#make-passcode) ===== -->
+    <section id="view-make-passcode" hidden>
+      <div class="tool">
+        <h2 data-i18n="hashTitle"></h2>
+        <p data-i18n="hashDesc" style="color:var(--muted)"></p>
+        <form id="hashForm" style="display:flex;gap:8px">
+          <input id="hashInput" class="search" style="max-width:none;margin:0" type="text" data-i18n-ph="passPh">
+          <button class="primary" type="submit" data-i18n="hashBtn"></button>
+        </form>
+        <code id="hashOut" hidden></code>
+        <button id="hashCopy" class="ghost" type="button" data-i18n="copy" hidden></button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+/* =========================================================================
+   SETTINGS — the only part you normally need to change
+   ========================================================================= */
+const CONFIG = {
+  SITE_NAME:    { zh: "科學每日趣聞", en: "Science Daily" },
+  SITE_TAGLINE: { zh: "每天一個科學小驚喜", en: "A science surprise every day" },
+  FOOTER:       { zh: "內容由科學科老師更新", en: "Content updated by our science teachers" },
+
+  // Paste the two "Publish to web → CSV" links from your Google Sheet here.
+  // Leave them empty ("") to show the built-in sample content.
+  FACTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSl7bh6ebXcpVmLKnspBxNhWSgdWpdwX81D-JI7DeGs7cmTLyLp5pmcTz3MLDKGg/pub?gid=339792574&single=true&output=csv",
+  LINKS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSl7bh6ebXcpVmLKnspBxNhWSgdWpdwX81D-JI7DeGs7cmTLyLp5pmcTz3MLDKGg/pub?gid=805858119&single=true&output=csv",
+
+  // SHA-256 code of the 教師專區 passcode. Default passcode: science2026
+  // To change it: open your website with  #make-passcode  at the end of the link.
+  TEACHER_PASSCODE_HASH: "caa005a0bc1ea422553c3ac1a97329491ac04a2746412f5d5a871b3c1ff23150",
+
+  DEFAULT_LANG: "zh",   // "zh" or "en"
+  PAGE_SIZE: 9          // archive cards shown before "Load more"
+};
+
+/* Topics: teachers can type either the English or Chinese name in the Sheet */
+const TOPICS = {
+  physics:    { zh: "物理",       en: "Physics",       c: "#2f6fdb" },
+  chemistry:  { zh: "化學",       en: "Chemistry",     c: "#d9822b" },
+  biology:    { zh: "生物",       en: "Biology",       c: "#1f9d6b" },
+  earth:      { zh: "地球與太空", en: "Earth & Space", c: "#7c55d6" },
+  technology: { zh: "科技",       en: "Technology",    c: "#d14b8f" },
+  general:    { zh: "綜合科學",   en: "General",       c: "#5f6b7d" }
+};
+
+const STR = {
+  zh: {
+    navFacts:"科學趣聞", navTeachers:"教師專區", today:"今日趣聞", latest:"最新趣聞", archive:"趣聞庫",
+    all:"全部", searchFacts:"搜尋趣聞…", more:"載入更多", readMore:"閱讀更多", readLess:"收起",
+    learnMore:"延伸閱讀", watchYT:"在 YouTube 觀看 ↗", play:"播放影片", empty:"暫時未有趣聞，敬請期待！",
+    noMatch:"找不到相關趣聞", loading:"載入中…", loadErr:"未能載入內容，請檢查網絡後再試。", retry:"重試",
+    lockTitle:"教師專區", lockDesc:"請輸入教師密碼", passPh:"密碼", enter:"進入", wrong:"密碼不正確，請再試。",
+    lock:"登出", teacherLinks:"教學資源連結", searchLinks:"搜尋連結…", noLinks:"暫時未有連結",
+    sample:"目前顯示示範內容。連接 Google Sheet 後會自動顯示你的內容。",
+    hashTitle:"設定新密碼", hashDesc:"輸入新密碼，按「產生代碼」，再把代碼貼到 index.html 的 TEACHER_PASSCODE_HASH。",
+    hashBtn:"產生代碼", copy:"複製代碼", copied:"已複製 ✓", noCrypto:"請用 https 網址開啟此頁。",
+    count:n=>`共 ${n} 則`, other:"其他"
+  },
+  en: {
+    navFacts:"Science Fun Facts", navTeachers:"Teacher Zone", today:"Today's Fun Fact", latest:"Latest Fun Fact",
+    archive:"Fact Archive", all:"All", searchFacts:"Search facts…", more:"Load more", readMore:"Read more",
+    readLess:"Show less", learnMore:"Learn more", watchYT:"Watch on YouTube ↗", play:"Play video",
+    empty:"No fun facts yet — stay tuned!", noMatch:"No matching facts", loading:"Loading…",
+    loadErr:"Couldn't load the content. Please check your connection and try again.", retry:"Retry",
+    lockTitle:"Teacher Zone", lockDesc:"Enter the teacher passcode", passPh:"Passcode", enter:"Enter",
+    wrong:"Incorrect passcode. Please try again.", lock:"Log out", teacherLinks:"Teaching resources",
+    searchLinks:"Search links…", noLinks:"No links yet",
+    sample:"Showing sample content. Connect your Google Sheet and your own content will appear automatically.",
+    hashTitle:"Set a new passcode", hashDesc:"Type a new passcode, press Generate, then paste the code into TEACHER_PASSCODE_HASH in index.html.",
+    hashBtn:"Generate", copy:"Copy code", copied:"Copied ✓", noCrypto:"Please open this page from an https link.",
+    count:n=>`${n} facts`, other:"Other"
+  }
+};
+
+/* Built-in sample content (used only while the CSV links above are empty) */
+const SAMPLE_FACTS = [
+  { date:"2026-10-27", topic:"Biology",
+    title_zh:"八爪魚有三個心臟和藍色的血", title_en:"Octopuses have three hearts and blue blood",
+    fact_zh:"八爪魚有三個心臟：兩個把血液泵到鰓吸收氧氣，一個把血液送往全身。\n牠們的血液靠含銅的「血藍蛋白」運送氧氣，而不是人類含鐵的血紅蛋白，所以血是藍色的！",
+    fact_en:"An octopus has three hearts: two pump blood through the gills to pick up oxygen, and one pumps it around the body.\nIts blood carries oxygen with copper-based haemocyanin instead of our iron-based haemoglobin — so it's blue!",
+    youtube:"https://youtu.be/SxOHYy1w92c",
+    caption_zh:"國家地理頻道《八爪魚的秘密》預告片", caption_en:"National Geographic — Secrets of the Octopus (trailer)",
+    link:"https://www.sciencefocus.com/nature/why-does-an-octopus-have-more-than-one-heart" },
+  { date:"2026-10-26", topic:"Biology",
+    title_zh:"西貢「藍眼淚」為何會發光？", title_en:"Why do Hong Kong's “blue tears” glow?",
+    fact_zh:"香港西貢等海岸有時會出現發出藍光的海浪，俗稱「藍眼淚」。發光的是一種叫夜光藻的浮游生物，受海浪拍打刺激時會發光，這叫「生物發光」。\n不過夜光藻大量繁殖通常與海水營養物（例如氮和磷）過多有關，所以美麗的藍光其實也是海水污染的警號。",
+    fact_en:"Waves along Sai Kung and other Hong Kong coasts sometimes glow blue — the famous “blue tears”. The light comes from a plankton called Noctiluca scintillans, which glows when waves disturb it. This is called bioluminescence.\nBut big blooms are usually linked to too many nutrients (like nitrogen and phosphorus) in the water, so the pretty glow is also a warning sign of pollution.",
+    youtube:"", caption_zh:"", caption_en:"", link:"" },
+  { date:"2026-10-24", topic:"Earth & Space",
+    title_zh:"糧船灣的六角形岩柱", title_en:"The hexagonal rock columns of High Island",
+    fact_zh:"西貢糧船灣一排排整齊的六角形岩柱，是大約一億四千萬年前一次超級火山爆發後，厚厚的火山灰慢慢冷卻、收縮和裂開而形成的。\n它們是香港聯合國教科文組織世界地質公園的一部分。",
+    fact_en:"The neat hexagonal columns at High Island in Sai Kung formed about 140 million years ago, when thick volcanic ash from a huge eruption slowly cooled, shrank and cracked.\nThey are part of the Hong Kong UNESCO Global Geopark.",
+    youtube:"", caption_zh:"", caption_en:"", link:"" },
+  { date:"2026-10-23", topic:"Physics",
+    title_zh:"你看見的太陽是 8 分鐘前的", title_en:"The Sun you see is 8 minutes old",
+    fact_zh:"陽光從太陽出發，大約要 8 分 20 秒才到達地球。所以你看見的太陽，其實是大約 8 分鐘前的樣子！",
+    fact_en:"Sunlight takes about 8 minutes and 20 seconds to travel from the Sun to Earth. So the Sun you see is really how it looked about 8 minutes ago!",
+    youtube:"", caption_zh:"", caption_en:"", link:"" },
+  { date:"2026-10-22", topic:"Chemistry",
+    title_zh:"香蕉有微弱的放射性", title_en:"Bananas are slightly radioactive",
+    fact_zh:"香蕉含豐富的鉀，其中極少部分是具放射性的同位素鉀-40，所以香蕉帶有非常微弱的放射性。份量極少，而且身體會自動維持鉀的水平，完全不用擔心，放心吃吧！",
+    fact_en:"Bananas are rich in potassium, and a tiny fraction of it is the radioactive isotope potassium-40. The amount is extremely small and your body keeps its potassium level steady, so there's nothing to worry about — enjoy your banana!",
+    youtube:"", caption_zh:"", caption_en:"", link:"" },
+  { date:"2026-10-21", topic:"Chemistry",
+    title_zh:"為甚麼冰會浮在水面？", title_en:"Why does ice float?",
+    fact_zh:"大部分物質由液體變成固體時體積會縮小，但水結冰時體積反而增大約 9%，令冰的密度比水低，所以會浮起來。\n冬天湖面結冰時，冰層就像蓋子一樣，保護下面的魚類繼續生存。",
+    fact_en:"Most substances shrink when they freeze, but water expands by about 9%. That makes ice less dense than water, so it floats.\nIn winter, a layer of ice on a lake acts like a lid that keeps the fish below alive.",
+    youtube:"", caption_zh:"", caption_en:"", link:"" },
+  { date:"2026-10-20", topic:"Physics",
+    title_zh:"閃電比太陽表面更熱", title_en:"Lightning is hotter than the Sun's surface",
+    fact_zh:"閃電經過的空氣可以在一瞬間被加熱到接近 30,000°C，大約是太陽表面溫度（約 5,500°C）的五倍！空氣急速膨脹，就產生了雷聲。",
+    fact_en:"The air in a lightning bolt can be heated to nearly 30,000°C in an instant — about five times hotter than the Sun's surface (about 5,500°C)! The air expands so fast that it makes the sound of thunder.",
+    youtube:"", caption_zh:"", caption_en:"", link:"" }
+];
+
+const SAMPLE_LINKS = [
+  { category_zh:"課程與考評", category_en:"Curriculum & Assessment", title_zh:"教育局 科學教育學習領域", title_en:"EDB Science Education KLA", url:"https://www.edb.gov.hk/en/curriculum-development/kla/science-edu/index.html", description_zh:"課程文件、學與教資源", description_en:"Curriculum documents and learning & teaching resources" },
+  { category_zh:"課程與考評", category_en:"Curriculum & Assessment", title_zh:"香港考試及評核局", title_en:"HKEAA", url:"https://www.hkeaa.edu.hk/", description_zh:"DSE 評核大綱及資料", description_en:"HKDSE assessment frameworks and information" },
+  { category_zh:"互動模擬", category_en:"Simulations", title_zh:"PhET 互動模擬", title_en:"PhET Interactive Simulations", url:"https://phet.colorado.edu/", description_zh:"免費物理、化學、生物模擬實驗", description_en:"Free physics, chemistry and biology simulations" },
+  { category_zh:"本地資源", category_en:"Local resources", title_zh:"香港天文台", title_en:"Hong Kong Observatory", url:"https://www.hko.gov.hk/", description_zh:"天氣、天文及教育資源", description_en:"Weather, astronomy and education resources" },
+  { category_zh:"本地資源", category_en:"Local resources", title_zh:"香港科學館", title_en:"Hong Kong Science Museum", url:"https://hk.science.museum/", description_zh:"展覽及學校參觀", description_en:"Exhibitions and school visits" },
+  { category_zh:"教材", category_en:"Teaching materials", title_zh:"英國皇家化學學會教育資源", title_en:"RSC Education", url:"https://edu.rsc.org/", description_zh:"化學實驗及教學材料", description_en:"Chemistry practicals and teaching materials" },
+  { category_zh:"教材", category_en:"Teaching materials", title_zh:"NASA Space Place", title_en:"NASA Space Place", url:"https://spaceplace.nasa.gov/", description_zh:"適合學生的太空科學", description_en:"Space science for students" }
+];
+
+/* =========================================================================
+   App code — no need to edit below this line
+   ========================================================================= */
+const $ = s => document.querySelector(s);
+const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
+                linkQ: "", unlocked: false, loaded: false };
+
+try { const l = localStorage.getItem("sd_lang"); if (l === "zh" || l === "en") state.lang = l; } catch (e) {}
+try { state.unlocked = sessionStorage.getItem("sd_teacher") === CONFIG.TEACHER_PASSCODE_HASH; } catch (e) {}
+
+const t = k => STR[state.lang][k] ?? k;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const safeUrl = u => { try { const x = new URL(String(u).trim()); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch (e) { return ""; } };
+/* pick the current language, fall back to the other one */
+const L = (o, k) => { const a = (o[k + "_" + state.lang] || "").trim(); return a || (o[k + "_" + (state.lang === "zh" ? "en" : "zh")] || "").trim(); };
+
+function ytId(u) {
+  u = String(u || "").trim();
+  if (/^[\w-]{11}$/.test(u)) return u;
+  const m = u.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/))([\w-]{11})/);
+  return m ? m[1] : "";
+}
+
+function todayHK() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Hong_Kong" }).format(new Date()); }
+function normDate(s) {
+  s = String(s || "").trim();
+  let m = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);
+  if (m) return `${m[1]}-${m[2].padStart(2,"0")}-${m[3].padStart(2,"0")}`;
+  m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/);           // HK style: day/month/year
+  if (m) return `${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`;
+  return "";
+}
+function fmtDate(iso) {
+  const [y, mo, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  return state.lang === "zh"
+    ? `${y}年${mo}月${d}日`
+    : dt.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+}
+function topicKey(raw) {
+  const r = String(raw || "").trim().toLowerCase();
+  if (!r) return "general";
+  for (const [k, v] of Object.entries(TOPICS)) if (r === k || r === v.en.toLowerCase() || r === v.zh) return k;
+  return "x:" + String(raw).trim();
+}
+function topicInfo(key) {
+  if (TOPICS[key]) return { label: TOPICS[key][state.lang], c: TOPICS[key].c };
+  return { label: key.slice(2), c: "#5f6b7d" };
+}
+
+/* CSV parser (handles quotes, commas and line breaks inside cells) */
+function parseCSV(text) {
+  const rows = []; let row = [], f = "", q = false;
+  text = text.replace(/^﻿/, "");
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; }
+      else f += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(f); f = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(f); rows.push(row); row = []; f = "";
+    } else f += c;
+  }
+  if (f !== "" || row.length) { row.push(f); rows.push(row); }
+  if (!rows.length) return [];
+  const head = rows[0].map(h => h.trim().toLowerCase().split(/\s+/)[0]);   // "title_zh 標題" → "title_zh"
+  return rows.slice(1).filter(r => r.some(x => x.trim())).map(r => {
+    const o = {}; head.forEach((h, i) => { if (h) o[h] = (r[i] || "").trim(); }); return o;
+  });
+}
+async function getCSV(url) {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return parseCSV(await res.text());
+}
+
+async function load() {
+  $("#status").hidden = false;
+  $("#status").textContent = t("loading");
+  try {
+    const usingSample = !CONFIG.FACTS_CSV_URL && !CONFIG.LINKS_CSV_URL;
+    const [f, l] = await Promise.all([
+      CONFIG.FACTS_CSV_URL ? getCSV(CONFIG.FACTS_CSV_URL) : Promise.resolve(usingSample ? SAMPLE_FACTS : []),
+      CONFIG.LINKS_CSV_URL ? getCSV(CONFIG.LINKS_CSV_URL) : Promise.resolve(usingSample ? SAMPLE_LINKS : [])
+    ]);
+    const today = todayHK();
+    state.facts = f.map(r => ({ ...r, date: normDate(r.date), tk: topicKey(r.topic) }))
+                   .filter(r => r.date && r.date <= today && (r.title_zh || r.title_en || r.fact_zh || r.fact_en))
+                   .sort((a, b) => b.date.localeCompare(a.date));
+    state.links = l.filter(r => safeUrl(r.url) && (r.title_zh || r.title_en));
+    state.loaded = true;
+    $("#notice").hidden = !usingSample;
+    $("#status").hidden = true;
+    render();
+  } catch (e) {
+    console.error(e);
+    $("#status").innerHTML = `${esc(t("loadErr"))}<br><br><button class="primary" type="button" onclick="load()">${esc(t("retry"))}</button>`;
+  }
+}
+
+/* ---------- rendering ---------- */
+function videoHTML(f) {
+  const id = ytId(f.youtube); if (!id) return "";
+  const cap = L(f, "caption");
+  return `<figure class="video">
+    <div class="yt-box"><button class="yt" type="button" data-id="${id}" aria-label="${esc(t("play"))}"
+      style="background-image:url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')"><span class="play"></span></button></div>
+    <figcaption>${cap ? esc(cap) + "<br>" : ""}<a class="yt-link" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${esc(t("watchYT"))}</a></figcaption>
+  </figure>`;
+}
+function chipHTML(key) {
+  const ti = topicInfo(key);
+  return `<span class="topic" style="--c:${ti.c}">${esc(ti.label)}</span>`;
+}
+function linkBtn(f) {
+  const u = safeUrl(f.link);
+  return u ? `<a class="btn-link" href="${esc(u)}" target="_blank" rel="noopener">${esc(t("learnMore"))} ↗</a>` : "";
+}
+
+function renderHero() {
+  const f = state.facts[0];
+  if (!f) { $("#hero").innerHTML = `<div class="empty">${esc(t("empty"))}</div>`; return; }
+  const isToday = f.date === todayHK();
+  const vid = videoHTML(f);
+  $("#hero").innerHTML = `<article class="hero ${vid ? "has-video" : ""}">
+    <div class="hero-body">
+      <div class="eyebrow"><span class="dot"></span>${esc(t(isToday ? "today" : "latest"))}</div>
+      <h1>${esc(L(f, "title"))}</h1>
+      <div class="meta">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
+      <p class="text" style="margin-top:14px">${esc(L(f, "fact"))}</p>
+      ${linkBtn(f)}
+    </div>
+    ${vid ? `<div class="hero-media">${vid}</div>` : ""}
+  </article>`;
+}
+
+function filteredArchive() {
+  const q = state.q.trim().toLowerCase();
+  return state.facts.slice(1).filter(f =>
+    (state.topic === "all" || f.tk === state.topic) &&
+    (!q || [f.title_zh, f.title_en, f.fact_zh, f.fact_en].join(" ").toLowerCase().includes(q)));
+}
+
+function renderChips() {
+  const present = [...new Set(state.facts.slice(1).map(f => f.tk))];
+  const order = [...Object.keys(TOPICS).filter(k => present.includes(k)), ...present.filter(k => !TOPICS[k])];
+  $("#chips").innerHTML = [`<button class="chip" type="button" data-topic="all" aria-pressed="${state.topic === "all"}">${esc(t("all"))}</button>`]
+    .concat(order.map(k => { const ti = topicInfo(k);
+      return `<button class="chip" type="button" data-topic="${esc(k)}" aria-pressed="${state.topic === k}" style="--c:${ti.c}"><i></i>${esc(ti.label)}</button>`; }))
+    .join("");
+}
+
+function renderArchive() {
+  const list = filteredArchive();
+  $("#factCount").textContent = t("count")(state.facts.length);
+  const items = list.slice(0, state.shown);
+  $("#archive").innerHTML = items.length ? items.map(f => {
+    const text = L(f, "fact"), long = text.length > (state.lang === "zh" ? 80 : 180);
+    return `<article class="card">
+      <div class="meta" style="margin:0">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
+      <h3>${esc(L(f, "title"))}</h3>
+      <p class="text ${long ? "clamp" : ""}">${esc(text)}</p>
+      ${long ? `<button class="more-toggle" type="button">${esc(t("readMore"))}</button>` : ""}
+      ${videoHTML(f)}
+      ${linkBtn(f)}
+    </article>`;
+  }).join("") : `<div class="empty">${esc(t(state.facts.length > 1 ? "noMatch" : "empty"))}</div>`;
+  $("#moreBtn").hidden = list.length <= state.shown;
+}
+
+function renderTeachers() {
+  $("#lockBox").hidden = state.unlocked;
+  $("#teacherArea").hidden = !state.unlocked;
+  if (!state.unlocked) return;
+  const q = state.linkQ.trim().toLowerCase();
+  const links = state.links.filter(r => !q ||
+    [r.title_zh, r.title_en, r.description_zh, r.description_en, r.category_zh, r.category_en, r.url].join(" ").toLowerCase().includes(q));
+  const groups = new Map();
+  links.forEach(r => { const g = L(r, "category") || t("other"); if (!groups.has(g)) groups.set(g, []); groups.get(g).push(r); });
+  $("#linkGroups").innerHTML = groups.size ? [...groups].map(([g, rs]) => `<section class="group">
+      <h3>${esc(g)}</h3>
+      <div class="grid">${rs.map(r => { const u = safeUrl(r.url); let host = ""; try { host = new URL(u).hostname.replace(/^www\./, ""); } catch (e) {}
+        return `<a class="card link-card" href="${esc(u)}" target="_blank" rel="noopener">
+          <h3>${esc(L(r, "title"))}</h3>${L(r, "description") ? `<p class="desc">${esc(L(r, "description"))}</p>` : ""}
+          <span class="host">${esc(host)} ↗</span></a>`; }).join("")}</div>
+    </section>`).join("") : `<div class="empty">${esc(t("noLinks"))}</div>`;
+}
+
+function applyStatic() {
+  document.documentElement.lang = state.lang === "zh" ? "zh-Hant-HK" : "en";
+  document.title = `${CONFIG.SITE_NAME[state.lang]} · ${state.lang === "zh" ? CONFIG.SITE_NAME.en : CONFIG.SITE_NAME.zh}`;
+  $("#siteName").textContent = CONFIG.SITE_NAME[state.lang];
+  $("#siteTagline").textContent = CONFIG.SITE_TAGLINE[state.lang];
+  $("#footer").textContent = CONFIG.FOOTER[state.lang];
+  $("#langBtn").textContent = state.lang === "zh" ? "EN" : "中文";
+  $("#langBtn").setAttribute("aria-label", state.lang === "zh" ? "Switch to English" : "切換至中文");
+  $("#notice").textContent = t("sample");
+  document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => el.placeholder = t(el.dataset.i18nPh));
+}
+
+function render() {
+  applyStatic();
+  const route = (location.hash.replace("#", "") || "facts");
+  const view = ["facts", "teachers", "make-passcode"].includes(route) ? route : "facts";
+  document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "view-" + view || (!state.loaded && view !== "make-passcode"));
+  document.querySelectorAll(".tabs a").forEach(a => a.classList.toggle("active", a.dataset.route === view));
+  if (!state.loaded) return;
+  if (view === "facts") { renderHero(); renderChips(); renderArchive(); }
+  if (view === "teachers") renderTeachers();
+}
+
+/* ---------- passcode ---------- */
+async function sha256(s) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* ---------- events ---------- */
+$("#langBtn").addEventListener("click", () => {
+  state.lang = state.lang === "zh" ? "en" : "zh";
+  try { localStorage.setItem("sd_lang", state.lang); } catch (e) {}
+  render();
+});
+window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.topic = b.dataset.topic; state.shown = CONFIG.PAGE_SIZE; renderChips(); renderArchive();
+});
+$("#factSearch").addEventListener("input", e => { state.q = e.target.value; state.shown = CONFIG.PAGE_SIZE; renderArchive(); });
+$("#moreBtn").addEventListener("click", () => { state.shown += CONFIG.PAGE_SIZE; renderArchive(); });
+$("#linkSearch").addEventListener("input", e => { state.linkQ = e.target.value; renderTeachers(); });
+
+document.addEventListener("click", e => {
+  const y = e.target.closest(".yt");
+  if (y) {
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${y.dataset.id}?autoplay=1&rel=0`;
+    f.title = "YouTube video";
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    y.replaceWith(f);
+    return;
+  }
+  const m = e.target.closest(".more-toggle");
+  if (m) {
+    const p = m.previousElementSibling, open = p.classList.toggle("clamp");
+    m.textContent = t(open ? "readMore" : "readLess");
+  }
+});
+
+$("#lockForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = $("#passInput").value.trim();
+  if (!v) return;
+  if (!window.crypto?.subtle) { $("#lockErr").textContent = t("noCrypto"); return; }
+  if (await sha256(v) === CONFIG.TEACHER_PASSCODE_HASH) {
+    state.unlocked = true;
+    try { sessionStorage.setItem("sd_teacher", CONFIG.TEACHER_PASSCODE_HASH); } catch (e) {}
+    $("#passInput").value = ""; $("#lockErr").textContent = "";
+    renderTeachers();
+  } else {
+    $("#lockErr").textContent = t("wrong");
+    const box = $("#lockBox"); box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
+  }
+});
+$("#lockBtn").addEventListener("click", () => {
+  state.unlocked = false;
+  try { sessionStorage.removeItem("sd_teacher"); } catch (e) {}
+  renderTeachers();
+});
+
+$("#hashForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = $("#hashInput").value.trim(); if (!v) return;
+  if (!window.crypto?.subtle) { $("#hashOut").hidden = false; $("#hashOut").textContent = t("noCrypto"); return; }
+  $("#hashOut").textContent = await sha256(v); $("#hashOut").hidden = false; $("#hashCopy").hidden = false;
+  $("#hashCopy").textContent = t("copy");
+});
+$("#hashCopy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("#hashOut").textContent); $("#hashCopy").textContent = t("copied"); } catch (e) {}
+});
+
+render();
+load();
+</script>
+</body>
+</html>
