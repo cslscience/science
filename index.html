@@ -100,6 +100,12 @@
             padding:8px 14px;border-radius:10px;background:var(--accent-soft);color:var(--accent)}
   .btn-link:hover{filter:brightness(.97)}
 
+  /* Pictures from the Sheet's "image" column */
+  .pic{display:block;border-radius:14px;overflow:hidden;background:var(--surface-2)}
+  .pic img{display:block;width:100%;height:auto;max-height:420px;object-fit:cover}
+  .card .pic img{aspect-ratio:16/9;max-height:none}
+  .pic.n-pic{margin-top:8px;max-width:420px}
+
   /* Archive */
   .archive-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:36px 0 12px}
   .archive-head .count{color:var(--muted);font-size:.9rem}
@@ -155,6 +161,62 @@
   .tool{max-width:560px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
   .tool code{display:block;word-break:break-all;background:var(--surface-2);padding:12px;border-radius:10px;margin:12px 0;font-size:.85rem}
 
+  /* Notices (重要信息) */
+  .notices{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-left:5px solid #e0a100;
+           border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+  .notices-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .notices-head h2{font-size:1.05rem}
+  .notice-item{padding:10px 0;border-top:1px dashed var(--line)}
+  .notice-item:first-of-type{border-top:0}
+  .notice-item .n-meta{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+  .pin{font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px;background:#e0a100;color:#fff}
+  .notice-item h3{margin:2px 0 0;font-size:1rem;line-height:1.45}
+  .notice-item p{margin:4px 0 0;white-space:pre-line;font-size:.93rem}
+  .notice-item a{font-size:.88rem;font-weight:700}
+  .notices .more-toggle{margin-top:8px;display:inline-block}
+
+  /* Notices + Upcoming row on the home page */
+  .info-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:16px}
+  .info-row > div:empty{display:none}
+  .info-row .notices{margin-top:0;height:100%}
+  .upcoming{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);
+            border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;height:100%}
+  .upcoming .notices-head a{margin-left:auto;font-size:.85rem;font-weight:700;text-decoration:none}
+
+  /* Calendar (行事曆) */
+  .ev-dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;display:inline-block}
+  .ev{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px dashed var(--line)}
+  .ev:first-of-type{border-top:0}
+  .ev-date{flex:none;width:54px;text-align:center;border-radius:12px;padding:4px 0;background:var(--surface-2)}
+  .ev-date b{display:block;font-size:1.3rem;line-height:1.1}
+  .ev-date small{display:block;font-size:.72rem;color:var(--muted)}
+  .ev-body{min-width:0;flex:1}
+  .ev-body h3{margin:0;font-size:1rem;line-height:1.4}
+  .ev-body p{margin:3px 0 0;font-size:.9rem;color:var(--muted);white-space:pre-line}
+  .ev-tag{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;color:var(--muted)}
+  .ev-when{font-size:.8rem;color:var(--muted)}
+  .ev-soon{font-size:.75rem;font-weight:700;color:var(--accent);margin-left:6px}
+  .ev-list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:6px 18px}
+  .cal{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:16px;margin-top:16px}
+  .cal-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .cal-head h2{min-width:130px;text-align:center}
+  .cal-nav{font-size:1.2rem;line-height:1;padding:6px 14px}
+  #calToday{margin-left:auto}
+  .cal-legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 6px;font-size:.8rem;color:var(--muted)}
+  .cal-legend span{display:inline-flex;align-items:center;gap:5px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .cal-wd{text-align:center;font-size:.78rem;font-weight:700;color:var(--muted);padding:4px 0}
+  .cal-day{min-height:58px;border-radius:10px;background:var(--surface-2);padding:4px;font-size:.8rem;position:relative;overflow:hidden}
+  .cal-day.out{background:transparent}
+  .cal-day .num{font-weight:700}
+  .cal-day.today{outline:2px solid var(--accent);outline-offset:-2px}
+  .cal-day.today .num{color:var(--accent)}
+  .cal-day .chips-d{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
+  .cal-day .lbl{display:block;font-size:.7rem;line-height:1.3;color:#fff;background:var(--c);border-radius:5px;padding:1px 4px;
+                margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  @media (max-width:639px){ .cal-day .lbl{display:none} .cal-day{min-height:46px} }
+  @media (min-width:640px){ .cal-day .chips-d{display:none} .cal-day{min-height:86px} }
+
   .status{text-align:center;color:var(--muted);padding:60px 10px}
   footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;text-align:center;padding:22px 16px 30px}
   [hidden]{display:none!important}
@@ -184,6 +246,7 @@
 <div class="wrap">
   <nav class="tabs">
     <a href="#facts" data-route="facts" data-i18n="navFacts"></a>
+    <a href="#calendar" data-route="calendar" data-i18n="navCal"></a>
     <a href="#teachers" data-route="teachers" data-i18n="navTeachers"></a>
   </nav>
   <div id="notice" class="notice" hidden></div>
@@ -193,6 +256,10 @@
 
     <!-- ===== General information ===== -->
     <section id="view-facts" hidden>
+      <div class="info-row">
+        <div id="notices"></div>
+        <div id="upcoming"></div>
+      </div>
       <div id="hero"></div>
       <div class="archive-head">
         <h2 data-i18n="archive"></h2>
@@ -202,6 +269,22 @@
       <div id="chips" class="chips" role="toolbar"></div>
       <div id="archive" class="grid"></div>
       <button id="moreBtn" class="load-more" type="button" data-i18n="more" hidden></button>
+    </section>
+
+    <!-- ===== 行事曆 ===== -->
+    <section id="view-calendar" hidden>
+      <div class="cal">
+        <div class="cal-head">
+          <button id="calPrev" class="ghost cal-nav" type="button" aria-label="Previous month">‹</button>
+          <h2 id="calTitle"></h2>
+          <button id="calNext" class="ghost cal-nav" type="button" aria-label="Next month">›</button>
+          <button id="calToday" class="ghost" type="button" data-i18n="thisMonth"></button>
+        </div>
+        <div id="calLegend" class="cal-legend"></div>
+        <div id="calGrid" class="cal-grid"></div>
+      </div>
+      <h2 id="calListTitle" style="margin:26px 0 10px"></h2>
+      <div id="calList" class="ev-list"></div>
     </section>
 
     <!-- ===== 教師專區 ===== -->
@@ -260,6 +343,10 @@ const CONFIG = {
   // Leave them empty ("") to show the built-in sample content.
   FACTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=339792574&single=true&output=csv",
   LINKS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=805858119&single=true&output=csv",
+  NOTICES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000001&single=true&output=csv",
+  NOTICES_SHOWN: 5,     // notices shown before "Show all"
+  CALENDAR_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000002&single=true&output=csv",
+  UPCOMING_SHOWN: 3,    // upcoming dates shown on the home page
 
   // SHA-256 code of the 教師專區 passcode. Default passcode: science2026
   // To change it: open your website with  #make-passcode  at the end of the link.
@@ -279,6 +366,15 @@ const TOPICS = {
   general:    { zh: "綜合科學",   en: "General",       c: "#5f6b7d" }
 };
 
+/* Calendar types: teachers can type either the English or Chinese name in the Sheet */
+const EVENT_TYPES = {
+  exam:     { zh: "考試", en: "Exam",     c: "#d64545" },
+  deadline: { zh: "截止", en: "Deadline", c: "#d9822b" },
+  event:    { zh: "活動", en: "Event",    c: "#0f8b8d" },
+  holiday:  { zh: "假期", en: "Holiday",  c: "#1f9d6b" },
+  other:    { zh: "其他", en: "Other",    c: "#7c55d6" }
+};
+
 const STR = {
   zh: {
     navFacts:"科學趣聞", navTeachers:"教師專區", today:"今日趣聞", latest:"最新趣聞", archive:"趣聞庫",
@@ -290,7 +386,11 @@ const STR = {
     sample:"目前顯示示範內容。連接 Google Sheet 後會自動顯示你的內容。",
     hashTitle:"設定新密碼", hashDesc:"輸入新密碼，按「產生代碼」，再把代碼貼到 index.html 的 TEACHER_PASSCODE_HASH。",
     hashBtn:"產生代碼", copy:"複製代碼", copied:"已複製 ✓", noCrypto:"請用 https 網址開啟此頁。",
-    count:n=>`共 ${n} 則`, other:"其他"
+    count:n=>`共 ${n} 則`, other:"其他",
+    notices:"重要信息", pinned:"置頂", showAll:"顯示全部", showLess:"收起", details:"詳情",
+    navCal:"行事曆", upcoming:"即將到來", viewCal:"查看行事曆 →", thisMonth:"本月", monthList:"本月重要日子",
+    noEvents:"這個月暫時沒有重要日子", todayIs:"今日", daysLeft:n=>n === 1 ? "明天" : `還有 ${n} 日`, ongoing:"進行中",
+    weekdays:["日","一","二","三","四","五","六"], monthTitle:(y,m)=>`${y}年${m}月`
   },
   en: {
     navFacts:"Science Fun Facts", navTeachers:"Teacher Zone", today:"Today's Fun Fact", latest:"Latest Fun Fact",
@@ -304,7 +404,12 @@ const STR = {
     sample:"Showing sample content. Connect your Google Sheet and your own content will appear automatically.",
     hashTitle:"Set a new passcode", hashDesc:"Type a new passcode, press Generate, then paste the code into TEACHER_PASSCODE_HASH in index.html.",
     hashBtn:"Generate", copy:"Copy code", copied:"Copied ✓", noCrypto:"Please open this page from an https link.",
-    count:n=>`${n} facts`, other:"Other"
+    count:n=>`${n} facts`, other:"Other",
+    notices:"Important Notices", pinned:"Pinned", showAll:"Show all", showLess:"Show less", details:"Details",
+    navCal:"Calendar", upcoming:"Coming up", viewCal:"View calendar →", thisMonth:"This month", monthList:"Important dates this month",
+    noEvents:"No important dates this month", todayIs:"Today", daysLeft:n=>n === 1 ? "Tomorrow" : `In ${n} days`, ongoing:"Happening now",
+    weekdays:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+    monthTitle:(y,m)=>new Date(Date.UTC(y,m-1,1)).toLocaleDateString("en-GB",{month:"long",year:"numeric",timeZone:"UTC"})
   }
 };
 
@@ -363,7 +468,7 @@ const SAMPLE_LINKS = [
    App code — no need to edit below this line
    ========================================================================= */
 const $ = s => document.querySelector(s);
-const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
+const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], noticesAll: false, events: [], calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
                 linkQ: "", unlocked: false, loaded: false };
 
 try { const l = localStorage.getItem("sd_lang"); if (l === "zh" || l === "en") state.lang = l; } catch (e) {}
@@ -452,6 +557,17 @@ async function load() {
                    .filter(r => r.date && r.date <= today && (r.title_zh || r.title_en || r.fact_zh || r.fact_en))
                    .sort((a, b) => b.date.localeCompare(a.date));
     state.links = l.filter(r => safeUrl(r.url) && (r.title_zh || r.title_en));
+    // Notices load separately so a problem with that tab never breaks the rest of the site
+    const n = CONFIG.NOTICES_CSV_URL ? await getCSV(CONFIG.NOTICES_CSV_URL).catch(err => { console.error(err); return []; }) : [];
+    state.notices = n.map(r => ({ ...r, date: normDate(r.date), until: normDate(r.until), pinned: /^(y|yes|是|1|true)$/i.test((r.pin || "").trim()) }))
+                     .filter(r => r.date && r.date <= today && (!r.until || r.until >= today) && (r.title_zh || r.title_en))
+                     .sort((a, b) => (b.pinned - a.pinned) || b.date.localeCompare(a.date));
+    // Calendar also loads separately
+    const c = CONFIG.CALENDAR_CSV_URL ? await getCSV(CONFIG.CALENDAR_CSV_URL).catch(err => { console.error(err); return []; }) : [];
+    state.events = c.map(r => { const d = normDate(r.date), e = normDate(r.end_date);
+                                return { ...r, date: d, end: e && e >= d ? e : d, ty: eventType(r.type) }; })
+                    .filter(r => r.date && (r.title_zh || r.title_en))
+                    .sort((a, b) => a.date.localeCompare(b.date) || a.end.localeCompare(b.end));
     state.loaded = true;
     $("#notice").hidden = !usingSample;
     $("#status").hidden = true;
@@ -481,20 +597,120 @@ function linkBtn(f) {
   return u ? `<a class="btn-link" href="${esc(u)}" target="_blank" rel="noopener">${esc(t("learnMore"))} ↗</a>` : "";
 }
 
+/* ---------- images (any https image link, or a Google Drive share link) ---------- */
+function imgUrl(u) {
+  u = safeUrl(u); if (!u) return "";
+  const m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:.*&)?id=)([\w-]{20,})/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1600` : u;
+}
+function imgHTML(r, cls) {
+  const u = imgUrl(r.image); if (!u) return "";
+  return `<a class="pic ${cls || ""}" href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="${esc(L(r, "title"))}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></a>`;
+}
+
+/* ---------- calendar ---------- */
+function eventType(raw) {
+  const r = String(raw || "").trim().toLowerCase();
+  for (const [k, v] of Object.entries(EVENT_TYPES)) if (r === k || r === v.en.toLowerCase() || r === v.zh) return k;
+  return "other";
+}
+const isoOf = (y, m, d) => `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+function daysBetween(a, b) {   // b - a in days, ISO strings
+  const p = s => { const [y, m, d] = s.split("-").map(Number); return Date.UTC(y, m - 1, d); };
+  return Math.round((p(b) - p(a)) / 86400000);
+}
+function whenText(ev) {
+  if (ev.end !== ev.date) return `${fmtDate(ev.date)} – ${fmtDate(ev.end)}`;
+  return fmtDate(ev.date);
+}
+function soonText(ev, today) {
+  if (ev.date <= today && ev.end >= today) return ev.date === ev.end ? t("todayIs") : t("ongoing");
+  const n = daysBetween(today, ev.date);
+  return n > 0 && n <= 30 ? t("daysLeft")(n) : "";
+}
+function evHTML(ev, today) {
+  const ty = EVENT_TYPES[ev.ty], [, mo, d] = ev.date.split("-").map(Number), u = safeUrl(ev.link), note = L(ev, "note"), soon = soonText(ev, today);
+  return `<div class="ev">
+    <div class="ev-date" style="border-top:3px solid ${ty.c}"><b>${d}</b><small>${state.lang === "zh" ? mo + "月" : new Date(Date.UTC(2000, mo - 1, 1)).toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" })}</small></div>
+    <div class="ev-body">
+      <span class="ev-tag"><i class="ev-dot" style="--c:${ty.c}"></i>${esc(ty[state.lang])}</span>${soon ? `<span class="ev-soon">${esc(soon)}</span>` : ""}
+      <h3>${esc(L(ev, "title"))}</h3>
+      <div class="ev-when">${esc(whenText(ev))}</div>
+      ${note ? `<p>${esc(note)}</p>` : ""}
+      ${u ? `<a href="${esc(u)}" target="_blank" rel="noopener" style="font-size:.88rem;font-weight:700">${esc(t("details"))} ↗</a>` : ""}
+    </div></div>`;
+}
+function renderUpcoming() {
+  const today = todayHK();
+  const list = state.events.filter(e => e.end >= today).slice(0, CONFIG.UPCOMING_SHOWN);
+  $("#upcoming").innerHTML = list.length ? `<section class="upcoming" aria-label="${esc(t("upcoming"))}">
+    <div class="notices-head"><span aria-hidden="true">📅</span><h2>${esc(t("upcoming"))}</h2><a href="#calendar">${esc(t("viewCal"))}</a></div>
+    ${list.map(e => evHTML(e, today)).join("")}
+  </section>` : "";
+}
+function renderCalendar() {
+  const today = todayHK();
+  if (!state.calY) { const [y, m] = today.split("-").map(Number); state.calY = y; state.calM = m; }
+  const y = state.calY, m = state.calM;
+  $("#calTitle").textContent = t("monthTitle")(y, m);
+  $("#calLegend").innerHTML = Object.values(EVENT_TYPES).map(v => `<span><i class="ev-dot" style="--c:${v.c}"></i>${esc(v[state.lang])}</span>`).join("");
+  const first = isoOf(y, m, 1), days = new Date(Date.UTC(y, m, 0)).getUTCDate(), last = isoOf(y, m, days);
+  const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
+  const inMonth = state.events.filter(e => e.date <= last && e.end >= first);
+  let cells = t("weekdays").map(w => `<div class="cal-wd">${esc(w)}</div>`).join("");
+  for (let i = 0; i < lead; i++) cells += `<div class="cal-day out"></div>`;
+  for (let d = 1; d <= days; d++) {
+    const iso = isoOf(y, m, d), evs = inMonth.filter(e => e.date <= iso && e.end >= iso);
+    cells += `<div class="cal-day ${iso === today ? "today" : ""}"><span class="num">${d}</span>
+      ${evs.slice(0, 3).map(e => `<span class="lbl" style="--c:${EVENT_TYPES[e.ty].c}" title="${esc(L(e, "title"))}">${esc(L(e, "title"))}</span>`).join("")}
+      ${evs.length > 3 ? `<span class="lbl" style="--c:var(--muted)">+${evs.length - 3}</span>` : ""}
+      ${evs.length ? `<span class="chips-d">${evs.slice(0, 4).map(e => `<i class="ev-dot" style="--c:${EVENT_TYPES[e.ty].c}"></i>`).join("")}</span>` : ""}
+    </div>`;
+  }
+  $("#calGrid").innerHTML = cells;
+  $("#calListTitle").textContent = t("monthList");
+  $("#calList").innerHTML = inMonth.length ? inMonth.map(e => evHTML(e, today)).join("") : `<div class="empty">${esc(t("noEvents"))}</div>`;
+}
+function shiftMonth(n) {
+  let m = state.calM + n, y = state.calY;
+  while (m < 1) { m += 12; y--; } while (m > 12) { m -= 12; y++; }
+  state.calY = y; state.calM = m; renderCalendar();
+}
+
+function renderNotices() {
+  const box = $("#notices");
+  if (!state.notices.length) { box.innerHTML = ""; return; }
+  const list = state.noticesAll ? state.notices : state.notices.slice(0, CONFIG.NOTICES_SHOWN);
+  box.innerHTML = `<section class="notices" aria-label="${esc(t("notices"))}">
+    <div class="notices-head"><span aria-hidden="true">📢</span><h2>${esc(t("notices"))}</h2></div>
+    ${list.map(r => { const u = safeUrl(r.link), body = L(r, "content");
+      return `<div class="notice-item">
+        <div class="n-meta">${r.pinned ? `<span class="pin">${esc(t("pinned"))}</span>` : ""}<span>${esc(fmtDate(r.date))}</span></div>
+        <h3>${esc(L(r, "title"))}</h3>
+        ${body ? `<p>${esc(body)}</p>` : ""}
+        ${imgHTML(r, "n-pic")}
+        ${u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t("details"))} ↗</a>` : ""}
+      </div>`; }).join("")}
+    ${state.notices.length > CONFIG.NOTICES_SHOWN ? `<button class="more-toggle notices-toggle" type="button">${esc(t(state.noticesAll ? "showLess" : "showAll"))}</button>` : ""}
+  </section>`;
+}
+
 function renderHero() {
   const f = state.facts[0];
   if (!f) { $("#hero").innerHTML = `<div class="empty">${esc(t("empty"))}</div>`; return; }
   const isToday = f.date === todayHK();
-  const vid = videoHTML(f);
-  $("#hero").innerHTML = `<article class="hero ${vid ? "has-video" : ""}">
+  const vid = videoHTML(f), pic = imgHTML(f);
+  const media = vid || pic;                       // video takes the side column; otherwise the picture does
+  $("#hero").innerHTML = `<article class="hero ${media ? "has-video" : ""}">
     <div class="hero-body">
       <div class="eyebrow"><span class="dot"></span>${esc(t(isToday ? "today" : "latest"))}</div>
       <h1>${esc(L(f, "title"))}</h1>
       <div class="meta">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
       <p class="text" style="margin-top:14px">${esc(L(f, "fact"))}</p>
+      ${vid && pic ? `<div style="margin-top:14px">${pic}</div>` : ""}
       ${linkBtn(f)}
     </div>
-    ${vid ? `<div class="hero-media">${vid}</div>` : ""}
+    ${media ? `<div class="hero-media">${media}</div>` : ""}
   </article>`;
 }
 
@@ -521,6 +737,7 @@ function renderArchive() {
   $("#archive").innerHTML = items.length ? items.map(f => {
     const text = L(f, "fact"), long = text.length > (state.lang === "zh" ? 80 : 180);
     return `<article class="card">
+      ${imgHTML(f)}
       <div class="meta" style="margin:0">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
       <h3>${esc(L(f, "title"))}</h3>
       <p class="text ${long ? "clamp" : ""}">${esc(text)}</p>
@@ -566,11 +783,12 @@ function applyStatic() {
 function render() {
   applyStatic();
   const route = (location.hash.replace("#", "") || "facts");
-  const view = ["facts", "teachers", "make-passcode"].includes(route) ? route : "facts";
+  const view = ["facts", "calendar", "teachers", "make-passcode"].includes(route) ? route : "facts";
   document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "view-" + view || (!state.loaded && view !== "make-passcode"));
   document.querySelectorAll(".tabs a").forEach(a => a.classList.toggle("active", a.dataset.route === view));
   if (!state.loaded) return;
-  if (view === "facts") { renderHero(); renderChips(); renderArchive(); }
+  if (view === "facts") { renderNotices(); renderUpcoming(); renderHero(); renderChips(); renderArchive(); }
+  if (view === "calendar") renderCalendar();
   if (view === "teachers") renderTeachers();
 }
 
@@ -595,6 +813,9 @@ $("#chips").addEventListener("click", e => {
 $("#factSearch").addEventListener("input", e => { state.q = e.target.value; state.shown = CONFIG.PAGE_SIZE; renderArchive(); });
 $("#moreBtn").addEventListener("click", () => { state.shown += CONFIG.PAGE_SIZE; renderArchive(); });
 $("#linkSearch").addEventListener("input", e => { state.linkQ = e.target.value; renderTeachers(); });
+$("#calPrev").addEventListener("click", () => shiftMonth(-1));
+$("#calNext").addEventListener("click", () => shiftMonth(1));
+$("#calToday").addEventListener("click", () => { state.calY = 0; renderCalendar(); });
 
 document.addEventListener("click", e => {
   const y = e.target.closest(".yt");
@@ -608,6 +829,7 @@ document.addEventListener("click", e => {
     y.replaceWith(f);
     return;
   }
+  if (e.target.closest(".notices-toggle")) { state.noticesAll = !state.noticesAll; renderNotices(); return; }
   const m = e.target.closest(".more-toggle");
   if (m) {
     const p = m.previousElementSibling, open = p.classList.toggle("clamp");
