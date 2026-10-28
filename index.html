@@ -134,6 +134,27 @@
              padding:10px 22px;border-radius:12px;font-weight:700;cursor:pointer}
   .empty{color:var(--muted);text-align:center;padding:30px 10px;grid-column:1/-1}
 
+  /* Long fun-fact articles */
+  .read-btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;text-decoration:none;font-weight:700;
+            background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:12px}
+  .read-btn small{font-weight:500;opacity:.85}
+  .card .read-btn{align-self:flex-start;padding:8px 13px;font-size:.88rem;margin-top:4px}
+  .mins{font-size:.82rem;color:var(--muted)}
+  .article{max-width:760px;margin:16px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:22px;
+           box-shadow:var(--shadow);padding:22px 20px 28px}
+  @media (min-width:700px){ .article{padding:34px 44px 40px} }
+  .article .back{display:inline-block;font-weight:700;text-decoration:none;margin-bottom:14px}
+  .article h1{font-size:clamp(1.5rem,4.6vw,2.1rem);line-height:1.3;margin:8px 0 10px;font-weight:900}
+  .article .lead-media{margin:20px 0 6px}
+  .article .video{margin:0}
+  .article .body{font-size:1.06rem;line-height:1.9}
+  .article .body h2{font-size:1.2rem;margin:28px 0 8px;padding-left:12px;border-left:4px solid var(--accent);line-height:1.4}
+  .article .body p{margin:0 0 14px}
+  .article .body ul{margin:0 0 14px;padding-left:1.3em}
+  .article .body li{margin:4px 0}
+  .article .foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+  .article .foot .btn-link{margin-top:0}
+
   /* Teacher zone */
   .lock{max-width:420px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;
         box-shadow:var(--shadow);padding:28px 24px;text-align:center}
@@ -160,6 +181,59 @@
   .link-card .host{font-size:.78rem;color:var(--accent);font-weight:700;margin-top:auto;word-break:break-all}
 
   .tool{max-width:560px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
+
+  /* 4 tabs on small phones */
+  @media (max-width:479px){ .tabs{gap:4px} .tabs a{padding:9px 4px;font-size:.86rem;border-radius:10px} }
+  @media (max-width:479px){ .seg button{padding:7px 9px;font-size:.86rem} #lockBtn{padding:7px 10px} }
+
+  /* 學與教資源 */
+  .res-intro{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);
+             border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+  .res-intro p{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+  .res-group{margin-top:20px}
+  .res-group > h3{font-size:1.05rem;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .res-group > h3::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .res-card .tag{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff;background:var(--c);align-self:flex-start}
+  .res-card .desc{color:var(--muted);font-size:.9rem;margin:0}
+  .res-card .btn-link{margin-top:auto;align-self:flex-start}
+
+  /* 教師專區 sub-tabs + worksheets */
+  .seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px}
+  .seg button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:700;color:var(--muted);cursor:pointer}
+  .seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+  .ws-up{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .ws-up summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;align-items:center;gap:8px;color:var(--accent)}
+  .ws-up summary::-webkit-details-marker{display:none}
+  .ws-up summary span{font-size:1.3rem;line-height:1}
+  .ws-up[open] summary{border-bottom:1px solid var(--line)}
+  .ws-form{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;padding:16px 18px 18px}
+  .ws-form label{display:flex;flex-direction:column;gap:5px;font-size:.85rem;font-weight:700;color:var(--muted);min-width:0}
+  .ws-form .wide{grid-column:1/-1}
+  .ws-form input,.ws-form select{font-weight:400;color:var(--ink);padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);min-width:0}
+  .ws-form input[type=file]{padding:8px}
+  .ws-form input:focus,.ws-form select:focus{outline:none;border-color:var(--accent)}
+  @media (max-width:520px){ .ws-form{grid-template-columns:1fr} }
+  .ws-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .ws-msg{font-size:.9rem;font-weight:700}
+  .ws-msg.ok{color:#1f9d6b} .ws-msg.bad{color:var(--danger)}
+  .primary:disabled{opacity:.6;cursor:wait}
+  .ws-sec{margin-top:20px}
+  .ws-sec > h3{font-size:1.05rem;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .ws-sec > h3::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .ws-term{font-size:.85rem;font-weight:700;color:var(--muted);margin:12px 0 6px}
+  .ws-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:2px 16px}
+  .ws-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px dashed var(--line)}
+  .ws-item:first-child{border-top:0}
+  .ws-ico{flex:none;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-size:.7rem;font-weight:900;color:#fff;background:var(--c)}
+  .ws-info{flex:1;min-width:0}
+  .ws-info b{display:block;line-height:1.4;word-break:break-word}
+  .ws-info small{display:block;color:var(--muted);font-size:.8rem;word-break:break-all}
+  .ws-btns{display:flex;gap:6px;flex:none}
+  .ws-btns a,.ws-btns button{font-size:.85rem;font-weight:700;padding:7px 11px;border-radius:9px;text-decoration:none;cursor:pointer;white-space:nowrap}
+  .ws-btns a{background:var(--accent-soft);color:var(--accent)}
+  .ws-btns button{border:1.5px solid var(--line);background:transparent;color:var(--muted)}
+  .ws-btns button.confirm{border-color:var(--danger);color:#fff;background:var(--danger)}
+  @media (max-width:520px){ .ws-item{flex-wrap:wrap} .ws-btns{width:100%;padding-left:52px} }
   .tool code{display:block;word-break:break-all;background:var(--surface-2);padding:12px;border-radius:10px;margin:12px 0;font-size:.85rem}
 
   /* Notices (重要信息) */
@@ -256,6 +330,7 @@
 <div class="wrap">
   <nav class="tabs">
     <a href="#facts" data-route="facts" data-i18n="navFacts"></a>
+    <a href="#resources" data-route="resources" data-i18n="navRes"></a>
     <a href="#calendar" data-route="calendar" data-i18n="navCal"></a>
     <a href="#teachers" data-route="teachers" data-i18n="navTeachers"></a>
   </nav>
@@ -279,6 +354,25 @@
       <div id="chips" class="chips" role="toolbar"></div>
       <div id="archive" class="grid"></div>
       <button id="moreBtn" class="load-more" type="button" data-i18n="more" hidden></button>
+    </section>
+
+    <!-- ===== 學與教資源 (links to Google Drive files) ===== -->
+    <section id="view-resources" hidden>
+      <div class="res-intro">
+        <h2 data-i18n="resTitle"></h2>
+        <p data-i18n="resDesc"></p>
+      </div>
+      <div class="archive-head" style="margin-top:18px">
+        <div id="resGrades" class="chips" role="toolbar" style="padding:0;flex:1 1 320px"></div>
+        <input id="resSearch" class="search" type="search" data-i18n-ph="searchRes">
+      </div>
+      <div id="resCats" class="chips" role="toolbar"></div>
+      <div id="resList"></div>
+    </section>
+
+    <!-- ===== Full article (opened from 閱讀全文) ===== -->
+    <section id="view-read" hidden>
+      <article id="readBody" class="article"></article>
     </section>
 
     <!-- ===== 行事曆 ===== -->
@@ -314,11 +408,46 @@
 
       <div id="teacherArea" hidden>
         <div class="t-head">
-          <h2 data-i18n="teacherLinks"></h2>
-          <input id="linkSearch" class="search" type="search" data-i18n-ph="searchLinks">
-          <button id="lockBtn" class="ghost" type="button" data-i18n="lock"></button>
+          <div class="seg" role="tablist">
+            <button type="button" role="tab" data-tz="ws" data-i18n="wsTab"></button>
+            <button type="button" role="tab" data-tz="links" data-i18n="teacherLinks"></button>
+          </div>
+          <button id="lockBtn" class="ghost" type="button" data-i18n="lock" style="margin-left:auto"></button>
         </div>
-        <div id="linkGroups"></div>
+
+        <!-- 工作紙 -->
+        <div id="tzWs">
+          <div id="wsOff" class="notice" data-i18n="wsOff" hidden></div>
+          <div id="wsOn">
+            <details id="wsUpBox" class="ws-up">
+              <summary><span>＋</span> <b data-i18n="wsUpload"></b></summary>
+              <form id="wsForm" class="ws-form" autocomplete="off">
+                <label><span data-i18n="wsGrade"></span><select id="wsFGrade"></select></label>
+                <label><span data-i18n="wsTerm"></span><select id="wsFTerm"></select></label>
+                <label class="wide"><span data-i18n="wsName"></span><input id="wsFTitle" type="text" maxlength="120" required></label>
+                <label><span data-i18n="wsTeacher"></span><input id="wsFTeacher" type="text" maxlength="40"></label>
+                <label class="wide"><span data-i18n="wsFile"></span><input id="wsFFile" type="file" required
+                  accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.heic,.zip"></label>
+                <div class="wide ws-actions"><button id="wsSubmit" class="primary" type="submit" data-i18n="wsSend"></button>
+                  <span id="wsMsg" class="ws-msg" role="status"></span></div>
+              </form>
+            </details>
+            <div class="archive-head" style="margin-top:16px">
+              <div id="wsGrades" class="chips" role="toolbar" style="padding:0"></div>
+              <div id="wsTerms" class="chips" role="toolbar" style="padding:0"></div>
+              <input id="wsSearch" class="search" type="search" data-i18n-ph="wsSearchPh">
+            </div>
+            <div id="wsList"></div>
+          </div>
+        </div>
+
+        <!-- 教學資源連結 -->
+        <div id="tzLinks" hidden>
+          <div class="archive-head" style="margin-top:14px">
+            <input id="linkSearch" class="search" type="search" data-i18n-ph="searchLinks" style="margin-left:0">
+          </div>
+          <div id="linkGroups"></div>
+        </div>
       </div>
     </section>
 
@@ -356,6 +485,10 @@ const CONFIG = {
   NOTICES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000001&single=true&output=csv",
   NOTICES_SHOWN: 8,     // maximum notices in the carousel
   NOTICE_SECONDS: 5,    // seconds before the carousel slides to the next notice
+  RESOURCES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000003&single=true&output=csv",
+  // Web-app link of the worksheet back end (Google Apps Script). Empty = worksheet upload switched off.
+  WORKSHEET_API: "",
+  WORKSHEET_MAX_MB: 20,
   CALENDAR_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000002&single=true&output=csv",
   UPCOMING_SHOWN: 3,    // upcoming dates shown on the home page
 
@@ -388,8 +521,16 @@ const EVENT_TYPES = {
 
 const STR = {
   zh: {
-    navFacts:"科學趣聞", navTeachers:"教師專區", today:"今日趣聞", latest:"最新趣聞", archive:"趣聞庫",
-    all:"全部", searchFacts:"搜尋趣聞…", more:"載入更多", readMore:"閱讀更多", readLess:"收起",
+    navFacts:"科學趣聞", navTeachers:"教師專區", navRes:"學與教資源",
+    resTitle:"學與教資源", resDesc:"作業答案及 Past Paper 答案只供同學自行核對及改正之用。按「開啟」會在 Google Drive 查看，請勿轉載或分享。",
+    searchRes:"搜尋資源…", resOpen:"在 Google Drive 開啟 ↗", resEmpty:"暫時未有資源", allGrades:"全部年級", allCats:"全部類別",
+    wsTab:"工作紙", wsOff:"工作紙上載功能尚未啟用。", wsUpload:"上載工作紙", wsGrade:"年級", wsTerm:"學期", wsName:"工作紙名稱",
+    wsTeacher:"老師（可留空）", wsFile:"檔案（PDF、Word、PowerPoint、Excel、圖片；最大 20MB）", wsSend:"上載",
+    wsSending:"上載中…", wsDone:"已上載 ✓", wsSearchPh:"搜尋工作紙…", wsLoading:"載入工作紙中…", wsEmpty:"這裏暫時未有工作紙",
+    wsOpen:"開啟", wsDel:"刪除", wsDelSure:"確定刪除？", wsAllTerms:"全部學期",
+    wsErr:{ TOO_BIG:"檔案太大（最大 20MB）", NO_TITLE:"請輸入工作紙名稱", NO_FILE:"請選擇檔案", LOCKED:"嘗試次數過多，請 10 分鐘後再試",
+            BAD_PASSCODE:"密碼已更改，請重新輸入", NET:"未能連線，請檢查網絡後再試" }, today:"今日趣聞", latest:"最新趣聞", archive:"趣聞庫",
+    all:"全部", searchFacts:"搜尋趣聞…", more:"載入更多", readMore:"閱讀更多", readLess:"收起", readFull:"閱讀全文", minRead:n=>`約 ${n} 分鐘閱讀`, back:"← 返回科學趣聞", notFound:"找不到這篇趣聞",
     learnMore:"延伸閱讀", watchYT:"在 YouTube 觀看 ↗", play:"播放影片", empty:"暫時未有趣聞，敬請期待！",
     noMatch:"找不到相關趣聞", loading:"載入中…", loadErr:"未能載入內容，請檢查網絡後再試。", retry:"重試",
     lockTitle:"教師專區", lockDesc:"請輸入教師密碼", passPh:"密碼", enter:"進入", wrong:"密碼不正確，請再試。",
@@ -404,9 +545,17 @@ const STR = {
     weekdays:["日","一","二","三","四","五","六"], monthTitle:(y,m)=>`${y}年${m}月`
   },
   en: {
-    navFacts:"Fun Facts", navTeachers:"Teacher Zone", today:"Today's Fun Fact", latest:"Latest Fun Fact",
+    navFacts:"Fun Facts", navTeachers:"Teacher Zone", navRes:"Resources",
+    resTitle:"Learning & Teaching Resources", resDesc:"Homework and past-paper answers are for checking and correcting your own work only. Open them in Google Drive — please do not copy or share them.",
+    searchRes:"Search resources…", resOpen:"Open in Google Drive ↗", resEmpty:"No resources yet", allGrades:"All forms", allCats:"All types",
+    wsTab:"Worksheets", wsOff:"Worksheet upload is not switched on yet.", wsUpload:"Upload a worksheet", wsGrade:"Form", wsTerm:"Term", wsName:"Worksheet title",
+    wsTeacher:"Teacher (optional)", wsFile:"File (PDF, Word, PowerPoint, Excel, image; max 20 MB)", wsSend:"Upload",
+    wsSending:"Uploading…", wsDone:"Uploaded ✓", wsSearchPh:"Search worksheets…", wsLoading:"Loading worksheets…", wsEmpty:"No worksheets here yet",
+    wsOpen:"Open", wsDel:"Delete", wsDelSure:"Sure?", wsAllTerms:"All terms",
+    wsErr:{ TOO_BIG:"File too large (max 20 MB)", NO_TITLE:"Please enter a title", NO_FILE:"Please choose a file", LOCKED:"Too many tries — please wait 10 minutes",
+            BAD_PASSCODE:"The passcode has changed — please enter it again", NET:"Couldn't connect. Please check your network." }, today:"Today's Fun Fact", latest:"Latest Fun Fact",
     archive:"Fact Archive", all:"All", searchFacts:"Search facts…", more:"Load more", readMore:"Read more",
-    readLess:"Show less", learnMore:"Learn more", watchYT:"Watch on YouTube ↗", play:"Play video",
+    readLess:"Show less", readFull:"Read full article", minRead:n=>`${n} min read`, back:"← Back to fun facts", notFound:"Fact not found", learnMore:"Learn more", watchYT:"Watch on YouTube ↗", play:"Play video",
     empty:"No fun facts yet — stay tuned!", noMatch:"No matching facts", loading:"Loading…",
     loadErr:"Couldn't load the content. Please check your connection and try again.", retry:"Retry",
     lockTitle:"Teacher Zone", lockDesc:"Enter the teacher passcode", passPh:"Passcode", enter:"Enter",
@@ -479,11 +628,11 @@ const SAMPLE_LINKS = [
    App code — no need to edit below this line
    ========================================================================= */
 const $ = s => document.querySelector(s);
-const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], nIdx: 0, nTimer: 0, nHover: false,events: [], calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
+const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], nIdx: 0, nTimer: 0, nHover: false,events: [], res: [], resGrade: "all", resCat: "all", resQ: "", tz: "ws", ws: null, wsLoading: false, wsGrade: "all", wsTerm: "all", wsQ: "", wsDel: "", pass: "", calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
                 linkQ: "", unlocked: false, loaded: false };
 
 try { const l = localStorage.getItem("sd_lang"); if (l === "zh" || l === "en") state.lang = l; } catch (e) {}
-try { state.unlocked = sessionStorage.getItem("sd_teacher") === CONFIG.TEACHER_PASSCODE_HASH; } catch (e) {}
+try { state.unlocked = sessionStorage.getItem("sd_teacher") === CONFIG.TEACHER_PASSCODE_HASH; state.pass = sessionStorage.getItem("sd_pass") || ""; } catch (e) {}
 
 const t = k => STR[state.lang][k] ?? k;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
@@ -574,6 +723,9 @@ async function load() {
                      .filter(r => r.date && r.date <= today && (!r.until || r.until >= today) && (r.title_zh || r.title_en))
                      .sort((a, b) => (b.pinned - a.pinned) || b.date.localeCompare(a.date));
     // Calendar also loads separately
+    const rs = CONFIG.RESOURCES_CSV_URL ? await getCSV(CONFIG.RESOURCES_CSV_URL).catch(err => { console.error(err); return []; }) : [];
+    state.res = rs.map(r => ({ ...r, from: normDate(r.show_from) }))
+                  .filter(r => safeUrl(r.link) && (r.title_zh || r.title_en) && (!r.from || r.from <= today));
     const c = CONFIG.CALENDAR_CSV_URL ? await getCSV(CONFIG.CALENDAR_CSV_URL).catch(err => { console.error(err); return []; }) : [];
     state.events = c.map(r => { const d = normDate(r.date), e = normDate(r.end_date);
                                 return { ...r, date: d, end: e && e >= d ? e : d, ty: eventType(r.type) }; })
@@ -754,6 +906,50 @@ function restartNoticeTimer() {
   state.nTimer = setInterval(() => { if (!state.nHover && !document.hidden) goNotice(state.nIdx + 1); }, CONFIG.NOTICE_SECONDS * 1000);
 }
 
+/* ---------- long articles ---------- */
+// A fact counts as an article when it has paragraphs / sub-headings or takes 2+ minutes to read.
+function readMins(text) {
+  const han = (text.match(/[㐀-鿿]/g) || []).length;
+  const words = (text.replace(/[㐀-鿿]/g, " ").match(/[A-Za-z0-9]+/g) || []).length;
+  return Math.max(1, Math.round(han / 400 + words / 200));
+}
+const isArticle = f => { const x = L(f, "fact"); return /\n\s*\n|^#{2,3}\s/m.test(x) || readMins(x) >= 2; };
+function summaryOf(f) {
+  const s = L(f, "summary"); if (s) return s;
+  const para = L(f, "fact").split(/\n\s*\n/).map(p => p.trim()).find(p => p && !/^#{2,3}\s/.test(p)) || "";
+  return para.replace(/\*\*/g, "").replace(/^[-•・]\s+/gm, "");
+}
+// Simple formatting for article text: blank line = new paragraph, "## " = sub-heading, "- " = bullet point
+function richText(text) {
+  const out = []; let para = [], list = [];
+  const flushP = () => { if (para.length) { out.push(`<p>${para.map(esc).join("<br>")}</p>`); para = []; } };
+  const flushL = () => { if (list.length) { out.push(`<ul>${list.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`); list = []; } };
+  for (const raw of String(text).split("\n")) {
+    const line = raw.trim().replace(/\*\*/g, "");
+    if (!line) { flushP(); flushL(); continue; }
+    if (/^#{2,3}\s+/.test(line)) { flushP(); flushL(); out.push(`<h2>${esc(line.replace(/^#+\s+/, ""))}</h2>`); continue; }
+    if (/^[-•・]\s+/.test(line)) { flushP(); list.push(line.replace(/^[-•・]\s+/, "")); continue; }
+    flushL(); para.push(line);
+  }
+  flushP(); flushL(); return out.join("");
+}
+function readBtn(f) {
+  return `<a class="read-btn" href="#read/${esc(f.date)}">${esc(t("readFull"))} <small>· ${esc(t("minRead")(readMins(L(f, "fact"))))}</small></a>`;
+}
+function renderRead(id) {
+  const f = state.facts.find(x => x.date === id);
+  if (!f) { $("#readBody").innerHTML = `<a class="back" href="#facts">${esc(t("back"))}</a><div class="empty">${esc(t("notFound"))}</div>`; return; }
+  const vid = videoHTML(f), pic = imgHTML(f);
+  $("#readBody").innerHTML = `<a class="back" href="#facts">${esc(t("back"))}</a>
+    <div class="meta">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span><span class="mins">${esc(t("minRead")(readMins(L(f, "fact"))))}</span></div>
+    <h1>${esc(L(f, "title"))}</h1>
+    ${vid || pic ? `<div class="lead-media">${vid || pic}</div>` : ""}
+    <div class="body">${richText(L(f, "fact"))}</div>
+    ${vid && pic ? pic : ""}
+    <div class="foot">${linkBtn(f)}<a class="back" style="margin:0" href="#facts">${esc(t("back"))}</a></div>`;
+  document.title = `${L(f, "title")} · ${CONFIG.SITE_NAME[state.lang]}`;
+}
+
 function renderHero() {
   const f = state.facts[0];
   if (!f) { $("#hero").innerHTML = `<div class="empty">${esc(t("empty"))}</div>`; return; }
@@ -765,9 +961,11 @@ function renderHero() {
       <div class="eyebrow"><span class="dot"></span>${esc(t(isToday ? "today" : "latest"))}</div>
       <h1>${esc(L(f, "title"))}</h1>
       <div class="meta">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
-      <p class="text" style="margin-top:14px">${esc(L(f, "fact"))}</p>
-      ${vid && pic ? `<div style="margin-top:14px">${pic}</div>` : ""}
-      ${linkBtn(f)}
+      ${isArticle(f)
+        ? `<p class="text" style="margin-top:14px">${esc(summaryOf(f))}</p>${readBtn(f)}`
+        : `<p class="text" style="margin-top:14px">${esc(L(f, "fact"))}</p>
+           ${vid && pic ? `<div style="margin-top:14px">${pic}</div>` : ""}
+           ${linkBtn(f)}`}
     </div>
     ${media ? `<div class="hero-media">${media}</div>` : ""}
   </article>`;
@@ -794,6 +992,13 @@ function renderArchive() {
   $("#factCount").textContent = t("count")(state.facts.length);
   const items = list.slice(0, state.shown);
   $("#archive").innerHTML = items.length ? items.map(f => {
+    if (isArticle(f)) return `<article class="card">
+      ${imgHTML(f)}
+      <div class="meta" style="margin:0">${chipHTML(f.tk)}<span>${esc(fmtDate(f.date))}</span></div>
+      <h3>${esc(L(f, "title"))}</h3>
+      <p class="text clamp">${esc(summaryOf(f))}</p>
+      ${readBtn(f)}
+    </article>`;
     const text = L(f, "fact"), long = text.length > (state.lang === "zh" ? 80 : 180);
     return `<article class="card">
       ${imgHTML(f)}
@@ -808,10 +1013,137 @@ function renderArchive() {
   $("#moreBtn").hidden = list.length <= state.shown;
 }
 
+/* ---------- 學與教資源 ---------- */
+const GRADE_ORDER = ["中一", "中二", "中三", "中四", "中五", "中六", "全級"];
+const GRADE_EN = { "中一": "S1", "中二": "S2", "中三": "S3", "中四": "S4", "中五": "S5", "中六": "S6", "全級": "All forms" };
+const gradeLabel = g => state.lang === "en" ? (GRADE_EN[g] || g) : g;
+const RES_CATS = {
+  "作業答案":       { en: "Homework answers",   c: "#2f6fdb" },
+  "Past Paper 答案": { en: "Past paper answers", c: "#d64545" },
+  "筆記":           { en: "Notes",              c: "#1f9d6b" },
+  "其他":           { en: "Other",              c: "#7c55d6" }
+};
+const catInfo = c => { const k = Object.keys(RES_CATS).find(x => x.toLowerCase() === String(c).trim().toLowerCase()) || (c ? String(c).trim() : "其他");
+  const v = RES_CATS[k] || { en: k, c: "#5f6b7d" }; return { key: k, label: state.lang === "en" ? v.en : k, c: v.c }; };
+const byGradeOrder = (a, b) => { const i = GRADE_ORDER.indexOf(a), j = GRADE_ORDER.indexOf(b); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || a.localeCompare(b); };
+
+function chipRow(el, allLabel, keys, current, labelOf, attr, colorOf) {
+  el.innerHTML = [`<button class="chip" type="button" ${attr}="all" aria-pressed="${current === "all"}">${esc(allLabel)}</button>`]
+    .concat(keys.map(k => `<button class="chip" type="button" ${attr}="${esc(k)}" aria-pressed="${current === k}" ${colorOf ? `style="--c:${colorOf(k)}"` : ""}>${colorOf ? "<i></i>" : ""}${esc(labelOf(k))}</button>`))
+    .join("");
+}
+
+function renderResources() {
+  const grades = [...new Set(state.res.map(r => (r.grade || "").trim() || "全級"))].sort(byGradeOrder);
+  const cats = [...new Set(state.res.map(r => catInfo(r.category).key))];
+  chipRow($("#resGrades"), t("allGrades"), grades, state.resGrade, gradeLabel, "data-rg");
+  chipRow($("#resCats"), t("allCats"), cats, state.resCat, k => catInfo(k).label, "data-rc", k => catInfo(k).c);
+  const q = state.resQ.trim().toLowerCase();
+  const list = state.res.filter(r => {
+    const g = (r.grade || "").trim() || "全級";
+    return (state.resGrade === "all" || g === state.resGrade) && (state.resCat === "all" || catInfo(r.category).key === state.resCat) &&
+      (!q || [r.title_zh, r.title_en, r.note_zh, r.note_en, r.category, r.grade].join(" ").toLowerCase().includes(q));
+  });
+  const groups = new Map();
+  list.forEach(r => { const g = (r.grade || "").trim() || "全級"; if (!groups.has(g)) groups.set(g, []); groups.get(g).push(r); });
+  $("#resList").innerHTML = groups.size ? [...groups].sort((a, b) => byGradeOrder(a[0], b[0])).map(([g, rs]) => `<section class="res-group">
+      <h3>${esc(gradeLabel(g))}</h3>
+      <div class="grid">${rs.map(r => { const ci = catInfo(r.category), note = L(r, "note");
+        return `<article class="card res-card">
+          <span class="tag" style="--c:${ci.c}">${esc(ci.label)}</span>
+          <h3>${esc(L(r, "title"))}</h3>
+          ${note ? `<p class="desc">${esc(note)}</p>` : ""}
+          <a class="btn-link" href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(t("resOpen"))}</a>
+        </article>`; }).join("")}</div>
+    </section>`).join("") : `<div class="empty">${esc(t("resEmpty"))}</div>`;
+}
+
+/* ---------- 教師專區: worksheets (via the Apps Script back end) ---------- */
+const WS_GRADES = ["中一", "中二", "中三"], WS_TERMS = ["上學期", "下學期"];
+const TERM_EN = { "上學期": "1st term", "下學期": "2nd term" };
+const termLabel = x => state.lang === "en" ? (TERM_EN[x] || x) : x;
+
+async function wsCall(body) {
+  let res;
+  try {
+    // text/plain body keeps this a "simple" request, which Apps Script web apps accept from any site
+    res = await fetch(CONFIG.WORKSHEET_API, { method: "POST", body: JSON.stringify({ ...body, passcode: state.pass }) });
+  } catch (e) { throw new Error("NET"); }
+  let j; try { j = await res.json(); } catch (e) { throw new Error("NET"); }
+  if (!j.ok) throw new Error(j.error || "NET");
+  return j;
+}
+function wsError(e) {
+  const code = e && e.message;
+  if (code === "BAD_PASSCODE") {           // passcode changed on the server → ask again
+    state.unlocked = false; state.pass = "";
+    try { sessionStorage.removeItem("sd_teacher"); sessionStorage.removeItem("sd_pass"); } catch (x) {}
+    renderTeachers(); $("#lockErr").textContent = t("wsErr").BAD_PASSCODE;
+  }
+  return t("wsErr")[code] || t("wsErr").NET;
+}
+async function loadWs() {
+  if (state.wsLoading || !CONFIG.WORKSHEET_API) return;
+  state.wsLoading = true; renderWsList();
+  try { state.ws = (await wsCall({ action: "list" })).files || []; }
+  catch (e) { state.ws = null; $("#wsList").innerHTML = `<div class="empty">${esc(wsError(e))}</div>`; state.wsLoading = false; return; }
+  state.wsLoading = false; renderWsList();
+}
+function fileKind(f) {
+  const ext = (f.name.split(".").pop() || "").toLowerCase();
+  if (ext === "pdf") return ["PDF", "#d64545"];
+  if (/^docx?$/.test(ext)) return ["DOC", "#2f6fdb"];
+  if (/^pptx?$/.test(ext)) return ["PPT", "#d9822b"];
+  if (/^xlsx?$/.test(ext)) return ["XLS", "#1f9d6b"];
+  if (/^(jpe?g|png|heic|gif|webp)$/.test(ext)) return ["IMG", "#7c55d6"];
+  return [ext.slice(0, 4).toUpperCase() || "FILE", "#5f6b7d"];
+}
+const fmtSize = n => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function renderWsList() {
+  chipRow($("#wsGrades"), t("allGrades"), WS_GRADES, state.wsGrade, gradeLabel, "data-wg");
+  chipRow($("#wsTerms"), t("wsAllTerms"), WS_TERMS, state.wsTerm, termLabel, "data-wt");
+  if (state.ws === null) { if (state.wsLoading) $("#wsList").innerHTML = `<div class="empty">${esc(t("wsLoading"))}</div>`; return; }
+  const q = state.wsQ.trim().toLowerCase();
+  const files = state.ws.filter(f => (state.wsGrade === "all" || f.grade === state.wsGrade) && (state.wsTerm === "all" || f.term === state.wsTerm) &&
+    (!q || [f.title, f.name, f.teacher].join(" ").toLowerCase().includes(q)));
+  const grades = WS_GRADES.filter(g => state.wsGrade === "all" || g === state.wsGrade);
+  const out = grades.map(g => {
+    const terms = WS_TERMS.filter(x => state.wsTerm === "all" || x === state.wsTerm).map(term => {
+      const fs = files.filter(f => f.grade === g && f.term === term);
+      if (!fs.length && (q || state.wsGrade === "all")) return "";
+      return `<div class="ws-term">${esc(termLabel(term))}</div>
+        <div class="ws-box">${fs.length ? fs.map(f => { const [k, c] = fileKind(f), sure = state.wsDel === f.id;
+          return `<div class="ws-item">
+            <span class="ws-ico" style="--c:${c}">${esc(k)}</span>
+            <div class="ws-info"><b>${esc(f.title)}</b>
+              <small>${esc([f.name !== f.title ? f.name : "", f.teacher, fmtDate(f.date), fmtSize(f.size)].filter(Boolean).join(" · "))}</small></div>
+            <div class="ws-btns"><a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener">${esc(t("wsOpen"))} ↗</a>
+              <button type="button" class="${sure ? "confirm" : ""}" data-wsdel="${esc(f.id)}">${esc(t(sure ? "wsDelSure" : "wsDel"))}</button></div>
+          </div>`; }).join("") : `<div class="empty" style="padding:16px">${esc(t("wsEmpty"))}</div>`}</div>`;
+    }).join("");
+    return terms ? `<section class="ws-sec"><h3>${esc(gradeLabel(g))}</h3>${terms}</section>` : "";
+  }).join("");
+  $("#wsList").innerHTML = out || `<div class="empty">${esc(t("wsEmpty"))}</div>`;
+}
+function fillWsForm() {
+  const keep = (sel, v) => { const el = $(sel); return el.value || v; };
+  let mem = {}; try { mem = JSON.parse(localStorage.getItem("sd_ws") || "{}"); } catch (e) {}
+  const g = keep("#wsFGrade", mem.grade || "中一"), tm = keep("#wsFTerm", mem.term || "上學期");
+  $("#wsFGrade").innerHTML = WS_GRADES.map(x => `<option value="${x}" ${x === g ? "selected" : ""}>${esc(gradeLabel(x))}</option>`).join("");
+  $("#wsFTerm").innerHTML = WS_TERMS.map(x => `<option value="${x}" ${x === tm ? "selected" : ""}>${esc(termLabel(x))}</option>`).join("");
+  if (!$("#wsFTeacher").value && mem.teacher) $("#wsFTeacher").value = mem.teacher;
+}
+
 function renderTeachers() {
   $("#lockBox").hidden = state.unlocked;
   $("#teacherArea").hidden = !state.unlocked;
   if (!state.unlocked) return;
+  document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-selected", b.dataset.tz === state.tz));
+  $("#tzWs").hidden = state.tz !== "ws"; $("#tzLinks").hidden = state.tz !== "links";
+  if (state.tz === "ws") {
+    $("#wsOff").hidden = !!CONFIG.WORKSHEET_API; $("#wsOn").hidden = !CONFIG.WORKSHEET_API;
+    if (CONFIG.WORKSHEET_API) { fillWsForm(); renderWsList(); if (state.ws === null && !state.wsLoading) loadWs(); }
+  }
   const q = state.linkQ.trim().toLowerCase();
   const links = state.links.filter(r => !q ||
     [r.title_zh, r.title_en, r.description_zh, r.description_en, r.category_zh, r.category_en, r.url].join(" ").toLowerCase().includes(q));
@@ -841,13 +1173,15 @@ function applyStatic() {
 
 function render() {
   applyStatic();
-  const route = (location.hash.replace("#", "") || "facts");
-  const view = ["facts", "calendar", "teachers", "make-passcode"].includes(route) ? route : "facts";
+  const [route, param] = decodeURIComponent(location.hash.replace("#", "") || "facts").split("/");
+  const view = ["facts", "read", "resources", "calendar", "teachers", "make-passcode"].includes(route) ? route : "facts";
   document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "view-" + view || (!state.loaded && view !== "make-passcode"));
-  document.querySelectorAll(".tabs a").forEach(a => a.classList.toggle("active", a.dataset.route === view));
+  document.querySelectorAll(".tabs a").forEach(a => a.classList.toggle("active", a.dataset.route === (view === "read" ? "facts" : view)));
   if (!state.loaded) return;
   if (view === "facts") { renderNotices(); renderUpcoming(); renderHero(); renderChips(); renderArchive(); }
+  if (view === "read") renderRead(param);
   if (view === "calendar") renderCalendar();
+  if (view === "resources") renderResources();
   if (view === "teachers") renderTeachers();
 }
 
@@ -873,6 +1207,41 @@ $("#chips").addEventListener("click", e => {
 $("#factSearch").addEventListener("input", e => { state.q = e.target.value; state.shown = CONFIG.PAGE_SIZE; renderArchive(); });
 $("#moreBtn").addEventListener("click", () => { state.shown += CONFIG.PAGE_SIZE; renderArchive(); });
 $("#linkSearch").addEventListener("input", e => { state.linkQ = e.target.value; renderTeachers(); });
+$("#resSearch").addEventListener("input", e => { state.resQ = e.target.value; renderResources(); });
+$("#resGrades").addEventListener("click", e => { const b = e.target.closest("[data-rg]"); if (b) { state.resGrade = b.dataset.rg; renderResources(); } });
+$("#resCats").addEventListener("click", e => { const b = e.target.closest("[data-rc]"); if (b) { state.resCat = b.dataset.rc; renderResources(); } });
+document.querySelector(".seg").addEventListener("click", e => { const b = e.target.closest("[data-tz]"); if (b) { state.tz = b.dataset.tz; renderTeachers(); } });
+$("#wsGrades").addEventListener("click", e => { const b = e.target.closest("[data-wg]"); if (b) { state.wsGrade = b.dataset.wg; renderWsList(); } });
+$("#wsTerms").addEventListener("click", e => { const b = e.target.closest("[data-wt]"); if (b) { state.wsTerm = b.dataset.wt; renderWsList(); } });
+$("#wsSearch").addEventListener("input", e => { state.wsQ = e.target.value; renderWsList(); });
+$("#wsList").addEventListener("click", async e => {
+  const b = e.target.closest("[data-wsdel]"); if (!b) return;
+  const id = b.dataset.wsdel;
+  if (state.wsDel !== id) { state.wsDel = id; renderWsList(); return; }   // first click asks "Sure?"
+  b.disabled = true;
+  try { await wsCall({ action: "delete", id }); state.ws = state.ws.filter(f => f.id !== id); state.wsDel = ""; renderWsList(); }
+  catch (err) { b.disabled = false; b.textContent = wsError(err); }
+});
+$("#wsForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#wsMsg"), btn = $("#wsSubmit"), file = $("#wsFFile").files[0];
+  const show = (txt, ok) => { msg.textContent = txt; msg.className = "ws-msg " + (ok ? "ok" : "bad"); };
+  const title = $("#wsFTitle").value.trim(), grade = $("#wsFGrade").value, term = $("#wsFTerm").value, teacher = $("#wsFTeacher").value.trim();
+  if (!title) return show(t("wsErr").NO_TITLE);
+  if (!file) return show(t("wsErr").NO_FILE);
+  if (file.size > CONFIG.WORKSHEET_MAX_MB * 1048576) return show(t("wsErr").TOO_BIG);
+  try { localStorage.setItem("sd_ws", JSON.stringify({ grade, term, teacher })); } catch (x) {}
+  btn.disabled = true; btn.textContent = t("wsSending"); msg.textContent = "";
+  try {
+    const data = await new Promise((ok, bad) => { const r = new FileReader();
+      r.onload = () => ok(String(r.result).split(",")[1] || ""); r.onerror = bad; r.readAsDataURL(file); });
+    await wsCall({ action: "upload", grade, term, title, teacher, filename: file.name, mime: file.type, data });
+    show(t("wsDone"), true);
+    $("#wsFTitle").value = ""; $("#wsFFile").value = "";
+    state.ws = null; state.wsGrade = grade; state.wsTerm = "all"; loadWs();
+  } catch (err) { show(wsError(err)); }
+  btn.disabled = false; btn.textContent = t("wsSend");
+});
 $("#calPrev").addEventListener("click", () => shiftMonth(-1));
 $("#calNext").addEventListener("click", () => shiftMonth(1));
 $("#calToday").addEventListener("click", () => { state.calY = 0; renderCalendar(); });
@@ -905,7 +1274,8 @@ $("#lockForm").addEventListener("submit", async e => {
   if (!window.crypto?.subtle) { $("#lockErr").textContent = t("noCrypto"); return; }
   if (await sha256(v) === CONFIG.TEACHER_PASSCODE_HASH) {
     state.unlocked = true;
-    try { sessionStorage.setItem("sd_teacher", CONFIG.TEACHER_PASSCODE_HASH); } catch (e) {}
+    state.pass = v;
+    try { sessionStorage.setItem("sd_teacher", CONFIG.TEACHER_PASSCODE_HASH); sessionStorage.setItem("sd_pass", v); } catch (e) {}
     $("#passInput").value = ""; $("#lockErr").textContent = "";
     renderTeachers();
   } else {
@@ -915,7 +1285,8 @@ $("#lockForm").addEventListener("submit", async e => {
 });
 $("#lockBtn").addEventListener("click", () => {
   state.unlocked = false;
-  try { sessionStorage.removeItem("sd_teacher"); } catch (e) {}
+  state.pass = ""; state.ws = null;
+  try { sessionStorage.removeItem("sd_teacher"); sessionStorage.removeItem("sd_pass"); } catch (e) {}
   renderTeachers();
 });
 
