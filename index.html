@@ -205,11 +205,46 @@
   .res-card .tag{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff;background:var(--c);align-self:flex-start}
   .res-card .desc{color:var(--muted);font-size:.9rem;margin:0}
   .res-card .btn-link{margin-top:auto;align-self:flex-start}
+  /* Grade entry banners — stacked full-width bilingual cards */
+  .grade-stack{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+  a.grade-card,.grade-card{display:flex;align-items:center;gap:16px;width:100%;text-align:left;text-decoration:none;
+    color:#fff;border:0;border-radius:18px;padding:18px 20px;min-height:104px;cursor:pointer;background:var(--gb,#1a4a84);
+    box-shadow:0 8px 20px rgba(16,32,64,.16)}
+  a.grade-card:visited,a.grade-card:hover{color:#fff;text-decoration:none}
+  a.grade-card:hover{filter:brightness(1.08)}
+  a.grade-card:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .grade-card.is-static{cursor:default;margin-top:10px}
+  .grade-card.is-static:hover{filter:none}
+  .grade-card .ico{flex:none;width:72px;height:72px;border-radius:16px;background:rgba(255,255,255,.16);display:grid;place-items:center}
+  .grade-card .ico svg{display:block}
+  .grade-card b{display:block;font-size:1.55rem;font-weight:900;line-height:1.25}
+  .grade-card small{display:block;margin-top:2px;font-size:1.02rem;font-weight:700;opacity:.94}
+  .grade-card.s1{--gb:#1a4a84}
+  .grade-card.s2{--gb:#1e5eae}
+  .grade-card.s3{--gb:#c53648}
+  .res-back{display:inline-flex;align-items:center;margin-top:16px;font-weight:700;text-decoration:none}
+  .res-tabs{display:flex;flex-wrap:nowrap;width:100%;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+  .res-tabs::-webkit-scrollbar{display:none}
+  .res-tabs button{flex:1 0 auto;white-space:nowrap;line-height:1.35;text-align:center}
+  .res-grid{display:grid;grid-template-columns:1fr;gap:12px}
+  .pbl-body{padding:4px 18px 18px}
+  .pbl-body > p{margin:0 0 12px;color:var(--muted);font-size:.9rem}
+  .pbl-lock{display:flex;gap:8px}
+  .pbl-lock input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg)}
+  .pbl-lock input:focus{outline:none;border-color:var(--accent)}
+  @media (max-width:479px){
+    a.grade-card,.grade-card{padding:14px;min-height:86px;gap:12px;border-radius:16px}
+    .grade-card .ico{width:56px;height:56px;border-radius:14px}
+    .grade-card .ico svg{width:30px;height:30px}
+    .grade-card b{font-size:1.28rem}
+    .grade-card small{font-size:.92rem}
+  }
 
   /* 教師專區 sub-tabs + worksheets */
   .seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px}
   .seg button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:700;color:var(--muted);cursor:pointer}
   .seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+  .seg.res-tabs{display:flex;flex-wrap:nowrap;width:100%;overflow-x:auto}
   .ws-up{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
   .ws-up summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;align-items:center;gap:8px;color:var(--accent)}
   .ws-up summary::-webkit-details-marker{display:none}
@@ -371,12 +406,39 @@
         <h2 data-i18n="resTitle"></h2>
         <p data-i18n="resDesc"></p>
       </div>
-      <div class="archive-head" style="margin-top:18px">
-        <div id="resGrades" class="chips" role="toolbar" style="padding:0;flex:1 1 320px"></div>
-        <input id="resSearch" class="search" type="search" data-i18n-ph="searchRes">
+      <nav id="resHome">
+        <div id="resGrades" class="grade-stack"></div>
+      </nav>
+      <div id="resDetail" hidden>
+        <a class="res-back" href="#resources" data-i18n="resBack"></a>
+        <div id="resBanner"></div>
+        <div id="resTabs" class="seg res-tabs" role="tablist"></div>
+        <div class="archive-head" style="margin-top:14px">
+          <input id="resSearch" class="search" type="search" data-i18n-ph="searchRes" style="margin-left:0">
+        </div>
+        <div id="resList"></div>
+        <details id="resPbl" class="ws-up" hidden>
+          <summary><span>＋</span> <b data-i18n="pblUpload"></b></summary>
+          <div class="pbl-body">
+            <p data-i18n="pblHint"></p>
+            <p id="pblOff" class="notice" data-i18n="wsOff" hidden></p>
+            <form id="pblLock" class="pbl-lock" autocomplete="off">
+              <input id="pblPass" type="password" data-i18n-ph="passPh" aria-label="Passcode">
+              <button class="primary" type="submit" data-i18n="pblUnlock"></button>
+            </form>
+            <div id="pblLockErr" class="err" role="alert"></div>
+            <form id="pblForm" class="ws-form" autocomplete="off" hidden style="padding-left:0;padding-right:0">
+              <label class="wide"><span data-i18n="wsName"></span><input id="pblTitle" type="text" maxlength="120" required></label>
+              <label><span data-i18n="wsTeacher"></span><input id="pblTeacher" type="text" maxlength="40"></label>
+              <label class="wide"><span data-i18n="wsFile"></span><input id="pblFile" type="file" required
+                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.heic,.zip"></label>
+              <div class="wide ws-actions"><button id="pblSubmit" class="primary" type="submit" data-i18n="wsSend"></button>
+                <span id="pblMsg" class="ws-msg" role="status"></span></div>
+            </form>
+            <div id="pblFiles"></div>
+          </div>
+        </details>
       </div>
-      <div id="resCats" class="chips" role="toolbar"></div>
-      <div id="resList"></div>
     </section>
 
     <!-- ===== Full article (opened from 閱讀全文) ===== -->
@@ -495,6 +557,7 @@ const CONFIG = {
   NOTICES_SHOWN: 8,     // maximum notices in the carousel
   NOTICE_SECONDS: 5,    // seconds before the carousel slides to the next notice
   RESOURCES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmstpyOOC8ixzebLcSzp8D0RFGVZ4-AUToyvg3TVaSexEal-Caosy4Czy7isEozx8FGlOKxpX3T9ZP/pub?gid=1200000003&single=true&output=csv",
+  // Resources category values: 作業答案, Past Paper 答案, and (中三) 專題研習. Student-facing links stay on this sheet.
   // Web-app link of the worksheet back end (Google Apps Script). Empty = worksheet upload switched off.
   WORKSHEET_API: "https://script.google.com/macros/s/AKfycbwNMOoV6d8XRSB8DNlrz3Aizo2LQIDeMIP9V-XhWJoulpCel8ul4Y7hN4dU-WFVRkRm/exec",
   WORKSHEET_MAX_MB: 20,
@@ -531,8 +594,11 @@ const EVENT_TYPES = {
 const STR = {
   zh: {
     navFacts:"科學趣聞", navTeachers:"教師專區", navRes:"學與教資源",
-    resTitle:"學與教資源", resDesc:"作業答案及 Past Paper 答案只供同學自行核對及改正之用。按「開啟」會在 Google Drive 查看，請勿轉載或分享。",
+    resTitle:"學與教資源", resDesc:"選擇年級，查看作業答案及 Past Paper 答案。中三另有專題研習。答案只供同學自行核對及改正之用，請勿轉載或分享。",
     searchRes:"搜尋資源…", resOpen:"在 Google Drive 開啟 ↗", resEmpty:"暫時未有資源", allGrades:"全部年級", allCats:"全部類別",
+    resPick:"選擇年級", resBack:"← 返回",
+    pblUpload:"教師上載專題檔案", pblUnlock:"解鎖上載", pblUploaded:"已上載（只限已登入老師）", pblEmpty:"尚未上載專題檔案",
+    pblHint:"同學看到的專題研習來自 Resources 試算表：年級填「中三」、類別填「專題研習」，並貼上 Google Drive 連結。此上載沿用教師密碼及工作紙系統（年級中三、學期「專題研習」），只在登入後顯示。",
     wsTab:"工作紙", wsOff:"工作紙上載功能尚未啟用。", wsUpload:"上載工作紙", wsGrade:"年級", wsTerm:"學期", wsName:"工作紙名稱",
     wsTeacher:"老師（可留空）", wsFile:"檔案（PDF、Word、PowerPoint、Excel、圖片；最大 20MB）", wsSend:"上載",
     wsSending:"上載中…", wsDone:"已上載 ✓", wsSearchPh:"搜尋工作紙…", wsLoading:"載入工作紙中…", wsEmpty:"這裏暫時未有工作紙",
@@ -555,8 +621,11 @@ const STR = {
   },
   en: {
     navFacts:"Fun Facts", navTeachers:"Teacher Zone", navRes:"Resources",
-    resTitle:"Learning & Teaching Resources", resDesc:"Homework and past-paper answers are for checking and correcting your own work only. Open them in Google Drive — please do not copy or share them.",
+    resTitle:"Learning & Teaching Resources", resDesc:"Choose a form for assignment answers and past-paper answers. Secondary 3 also has project-based learning. Answers are for checking your own work — please do not copy or share them.",
     searchRes:"Search resources…", resOpen:"Open in Google Drive ↗", resEmpty:"No resources yet", allGrades:"All forms", allCats:"All types",
+    resPick:"Choose a form", resBack:"← Back",
+    pblUpload:"Teacher upload", pblUnlock:"Unlock upload", pblUploaded:"Uploaded (signed-in teachers only)", pblEmpty:"No project files uploaded yet",
+    pblHint:"Students see project items from the Resources sheet: grade 中三 and category 專題研習, with a Google Drive link. This upload uses the teacher passcode and worksheet system (Secondary 3, term 專題研習) and only appears after sign-in.",
     wsTab:"Worksheets", wsOff:"Worksheet upload is not switched on yet.", wsUpload:"Upload a worksheet", wsGrade:"Form", wsTerm:"Term", wsName:"Worksheet title",
     wsTeacher:"Teacher (optional)", wsFile:"File (PDF, Word, PowerPoint, Excel, image; max 20 MB)", wsSend:"Upload",
     wsSending:"Uploading…", wsDone:"Uploaded ✓", wsSearchPh:"Search worksheets…", wsLoading:"Loading worksheets…", wsEmpty:"No worksheets here yet",
@@ -637,7 +706,7 @@ const SAMPLE_LINKS = [
    App code — no need to edit below this line
    ========================================================================= */
 const $ = s => document.querySelector(s);
-const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], nIdx: 0, nTimer: 0, nHover: false,events: [], res: [], resGrade: "all", resCat: "all", resQ: "", tz: "ws", ws: null, wsLoading: false, wsGrade: "all", wsTerm: "all", wsQ: "", wsDel: "", pass: "", calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
+const state = { lang: CONFIG.DEFAULT_LANG, facts: [], links: [], notices: [], nIdx: 0, nTimer: 0, nHover: false,events: [], res: [], resCat: "作業答案", resQ: "", tz: "ws", ws: null, wsLoading: false, wsErr: "", wsGrade: "all", wsTerm: "all", wsQ: "", wsDel: "", pass: "", calY: 0, calM: 0, topic: "all", q: "", shown: CONFIG.PAGE_SIZE,
                 linkQ: "", unlocked: false, loaded: false };
 
 try { const l = localStorage.getItem("sd_lang"); if (l === "zh" || l === "en") state.lang = l; } catch (e) {}
@@ -1041,18 +1110,59 @@ function renderArchive() {
 }
 
 /* ---------- 學與教資源 ---------- */
-const GRADE_ORDER = ["中一", "中二", "中三", "中四", "中五", "中六", "全級"];
 const GRADE_EN = { "中一": "S1", "中二": "S2", "中三": "S3", "中四": "S4", "中五": "S5", "中六": "S6", "全級": "All forms" };
 const gradeLabel = g => state.lang === "en" ? (GRADE_EN[g] || g) : g;
+const RES_GRADES = ["中一", "中二", "中三"];
+const RES_ANSWER_TABS = ["作業答案", "Past Paper 答案"];
+const PBL_CAT = "專題研習";
+const ICO_BOOK = `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`;
+const ICO_FILE = `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>`;
+const ICO_BULB = `<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12c.5.7 1 1.5 1 2h6c0-.5.5-1.3 1-2a7 7 0 0 0-4-12z"/></svg>`;
+const RES_ENTRIES = [
+  { grade: "中一", slug: "s1", en: "Secondary 1", icon: ICO_BOOK },
+  { grade: "中二", slug: "s2", en: "Secondary 2", icon: ICO_FILE },
+  { grade: "中三", slug: "s3", en: "Secondary 3", icon: ICO_BULB }
+];
 const RES_CATS = {
-  "作業答案":       { en: "Homework answers",   c: "#2f6fdb" },
+  "作業答案":       { en: "Assignment answers", c: "#2f6fdb" },
   "Past Paper 答案": { en: "Past paper answers", c: "#d64545" },
+  "專題研習":       { en: "Project-based learning", c: "#c53648" },
   "筆記":           { en: "Notes",              c: "#1f9d6b" },
   "其他":           { en: "Other",              c: "#7c55d6" }
 };
-const catInfo = c => { const k = Object.keys(RES_CATS).find(x => x.toLowerCase() === String(c).trim().toLowerCase()) || (c ? String(c).trim() : "其他");
-  const v = RES_CATS[k] || { en: k, c: "#5f6b7d" }; return { key: k, label: state.lang === "en" ? v.en : k, c: v.c }; };
-const byGradeOrder = (a, b) => { const i = GRADE_ORDER.indexOf(a), j = GRADE_ORDER.indexOf(b); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || a.localeCompare(b); };
+const normKey = s => String(s || "").trim().toLowerCase().replace(/\s+/g, "");
+const CAT_ALIAS = {
+  "作業答案": "作業答案", "功課答案": "作業答案", "homeworkanswers": "作業答案", "assignmentanswers": "作業答案", "homework": "作業答案", "assignment": "作業答案",
+  "pastpaper答案": "Past Paper 答案", "pastpaperanswers": "Past Paper 答案", "pastpaper": "Past Paper 答案", "pastpapers": "Past Paper 答案",
+  "專題研習": "專題研習", "專題": "專題研習", "projectbasedlearning": "專題研習", "pbl": "專題研習", "projects": "專題研習", "project": "專題研習"
+};
+const GRADE_ALIAS = {
+  "中一": "中一", "s1": "中一", "f1": "中一", "form1": "中一", "sec1": "中一", "secondary1": "中一",
+  "中二": "中二", "s2": "中二", "f2": "中二", "form2": "中二", "sec2": "中二", "secondary2": "中二",
+  "中三": "中三", "s3": "中三", "f3": "中三", "form3": "中三", "sec3": "中三", "secondary3": "中三"
+};
+const canonGrade = g => GRADE_ALIAS[normKey(g)] || String(g || "").trim();
+const catInfo = c => {
+  const raw = String(c || "").trim();
+  const k = CAT_ALIAS[normKey(raw)] || Object.keys(RES_CATS).find(x => x.toLowerCase() === raw.toLowerCase()) || (raw || "其他");
+  const v = RES_CATS[k] || { en: k, c: "#5f6b7d" };
+  return { key: k, label: state.lang === "en" ? v.en : k, c: v.c };
+};
+function hashParts() {
+  let raw = "facts";
+  try { raw = decodeURIComponent(String(location.hash || "#facts").replace(/^#/, "")) || "facts"; }
+  catch (e) { raw = String(location.hash || "#facts").replace(/^#/, "") || "facts"; }
+  return raw.split("/");
+}
+function resGradeFromParam(p) { const g = canonGrade(p); return RES_GRADES.includes(g) ? g : ""; }
+function gradeCardHTML(g, link) {
+  const title = state.lang === "zh" ? g.grade : g.en;
+  const sub = state.lang === "zh" ? g.en : g.grade;
+  const inner = `<span class="ico" aria-hidden="true">${g.icon}</span><span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
+  return link
+    ? `<a class="grade-card ${g.slug}" href="#resources/${g.slug}">${inner}</a>`
+    : `<div class="grade-card is-static ${g.slug}">${inner}</div>`;
+}
 
 function chipRow(el, allLabel, keys, current, labelOf, attr, colorOf) {
   el.innerHTML = [`<button class="chip" type="button" ${attr}="all" aria-pressed="${current === "all"}">${esc(allLabel)}</button>`]
@@ -1060,29 +1170,64 @@ function chipRow(el, allLabel, keys, current, labelOf, attr, colorOf) {
     .join("");
 }
 
+/* Student-facing rows (including 中三 專題研習) come from the Resources CSV, filtered by grade + category.
+   Teacher upload on that tab reuses WORKSHEET_API (passcode, grade 中三, term 專題研習). The worksheet
+   list needs the passcode, so those files are shown only while a teacher is signed in. */
 function renderResources() {
-  const grades = [...new Set(state.res.map(r => (r.grade || "").trim() || "全級"))].sort(byGradeOrder);
-  const cats = [...new Set(state.res.map(r => catInfo(r.category).key))];
-  chipRow($("#resGrades"), t("allGrades"), grades, state.resGrade, gradeLabel, "data-rg");
-  chipRow($("#resCats"), t("allCats"), cats, state.resCat, k => catInfo(k).label, "data-rc", k => catInfo(k).c);
+  const grade = resGradeFromParam(hashParts()[1]);
+  const focusCat = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.rc : "";
+  $("#resGrades").setAttribute("aria-label", t("resPick"));
+  $("#resGrades").innerHTML = RES_ENTRIES.map(g => gradeCardHTML(g, true)).join("");
+  $("#resHome").hidden = !!grade;
+  $("#resDetail").hidden = !grade;
+  if (!grade) return;
+  const entry = RES_ENTRIES.find(g => g.grade === grade);
+  const tabs = grade === "中三" ? RES_ANSWER_TABS.concat(PBL_CAT) : RES_ANSWER_TABS.slice();
+  if (!tabs.includes(state.resCat)) state.resCat = tabs[0];
+  $("#resBanner").innerHTML = gradeCardHTML(entry, false);
+  $("#resTabs").setAttribute("aria-label", state.lang === "zh" ? grade : entry.en);
+  $("#resTabs").innerHTML = tabs.map(k => `<button type="button" role="tab" data-rc="${esc(k)}" aria-selected="${state.resCat === k}">${esc(catInfo(k).label)}</button>`).join("");
+  if (focusCat) { const b = [...$("#resTabs").children].find(x => x.dataset.rc === focusCat); if (b) b.focus(); }
   const q = state.resQ.trim().toLowerCase();
-  const list = state.res.filter(r => {
-    const g = (r.grade || "").trim() || "全級";
-    return (state.resGrade === "all" || g === state.resGrade) && (state.resCat === "all" || catInfo(r.category).key === state.resCat) &&
-      (!q || [r.title_zh, r.title_en, r.note_zh, r.note_en, r.category, r.grade].join(" ").toLowerCase().includes(q));
-  });
-  const groups = new Map();
-  list.forEach(r => { const g = (r.grade || "").trim() || "全級"; if (!groups.has(g)) groups.set(g, []); groups.get(g).push(r); });
-  $("#resList").innerHTML = groups.size ? [...groups].sort((a, b) => byGradeOrder(a[0], b[0])).map(([g, rs]) => `<section class="res-group">
-      <h3>${esc(gradeLabel(g))}</h3>
-      <div class="grid">${rs.map(r => { const ci = catInfo(r.category), note = L(r, "note");
-        return `<article class="card res-card">
-          <span class="tag" style="--c:${ci.c}">${esc(ci.label)}</span>
-          <h3>${esc(L(r, "title"))}</h3>
-          ${note ? `<p class="desc">${esc(note)}</p>` : ""}
-          <a class="btn-link" href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(t("resOpen"))}</a>
-        </article>`; }).join("")}</div>
-    </section>`).join("") : `<div class="empty">${esc(t("resEmpty"))}</div>`;
+  const list = state.res.filter(r => canonGrade(r.grade) === grade && catInfo(r.category).key === state.resCat &&
+    (!q || [r.title_zh, r.title_en, r.note_zh, r.note_en, r.category, r.grade].join(" ").toLowerCase().includes(q)));
+  $("#resList").innerHTML = list.length ? `<div class="res-grid">${list.map(r => { const note = L(r, "note");
+    return `<article class="card res-card">
+      <h3>${esc(L(r, "title"))}</h3>
+      ${note ? `<p class="desc">${esc(note)}</p>` : ""}
+      <a class="btn-link" href="${esc(safeUrl(r.link))}" target="_blank" rel="noopener">${esc(t("resOpen"))}</a>
+    </article>`; }).join("")}</div>` : `<div class="empty">${esc(t("resEmpty"))}</div>`;
+  const showPbl = grade === "中三" && state.resCat === PBL_CAT;
+  $("#resPbl").hidden = !showPbl;
+  if (showPbl) renderPblUpload();
+}
+function renderPblUpload() {
+  const on = !!CONFIG.WORKSHEET_API;
+  $("#pblOff").hidden = on;
+  $("#pblLock").hidden = !on || state.unlocked;
+  $("#pblForm").hidden = !on || !state.unlocked;
+  $("#pblFiles").hidden = !on || !state.unlocked;
+  if (on && state.unlocked) {
+    if (state.ws === null && !state.wsLoading && !state.wsErr) loadWs();
+    else renderPblFiles();
+  }
+}
+function renderPblFiles() {
+  const box = $("#pblFiles"); if (!box || box.hidden) return;
+  if (state.ws === null) {
+    box.innerHTML = `<div class="empty">${esc(state.wsErr || t(state.wsLoading ? "wsLoading" : "wsEmpty"))}</div>`;
+    return;
+  }
+  const files = state.ws.filter(f => f.grade === "中三" && f.term === PBL_CAT);
+  box.innerHTML = `<div class="ws-term">${esc(t("pblUploaded"))}</div>
+    <div class="ws-box">${files.length ? files.map(f => { const [k, c] = fileKind(f), sure = state.wsDel === f.id;
+      return `<div class="ws-item">
+        <span class="ws-ico" style="--c:${c}">${esc(k)}</span>
+        <div class="ws-info"><b>${esc(f.title)}</b>
+          <small>${esc([f.name && f.name !== f.title ? f.name : "", f.teacher, (f.date && String(f.date).includes("-")) ? fmtDate(String(f.date).slice(0, 10)) : "", fmtSize(f.size || 0)].filter(Boolean).join(" · "))}</small></div>
+        <div class="ws-btns"><a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener">${esc(t("wsOpen"))} ↗</a>
+          <button type="button" class="${sure ? "confirm" : ""}" data-pbldel="${esc(f.id)}">${esc(t(sure ? "wsDelSure" : "wsDel"))}</button></div>
+      </div>`; }).join("") : `<div class="empty" style="padding:16px">${esc(t("pblEmpty"))}</div>`}</div>`;
 }
 
 /* ---------- 教師專區: worksheets (via the Apps Script back end) ---------- */
@@ -1111,10 +1256,16 @@ function wsError(e) {
 }
 async function loadWs() {
   if (state.wsLoading || !CONFIG.WORKSHEET_API) return;
-  state.wsLoading = true; renderWsList();
+  state.wsLoading = true; state.wsErr = ""; renderWsList(); renderPblFiles();
   try { state.ws = (await wsCall({ action: "list" })).files || []; }
-  catch (e) { state.ws = null; $("#wsList").innerHTML = `<div class="empty">${esc(wsError(e))}</div>`; state.wsLoading = false; return; }
-  state.wsLoading = false; renderWsList();
+  catch (e) {
+    state.ws = null; state.wsErr = wsError(e);
+    $("#wsList").innerHTML = `<div class="empty">${esc(state.wsErr)}</div>`;
+    state.wsLoading = false; renderPblFiles();
+    if (!state.unlocked) renderResources();
+    return;
+  }
+  state.wsLoading = false; renderWsList(); renderPblFiles();
 }
 function fileKind(f) {
   const ext = (f.name.split(".").pop() || "").toLowerCase();
@@ -1200,7 +1351,7 @@ function applyStatic() {
 
 function render() {
   applyStatic();
-  const [route, param] = decodeURIComponent(location.hash.replace("#", "") || "facts").split("/");
+  const [route, param] = hashParts();
   const view = ["facts", "read", "resources", "calendar", "teachers", "make-passcode"].includes(route) ? route : "facts";
   document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "view-" + view || (!state.loaded && view !== "make-passcode"));
   document.querySelectorAll(".tabs a").forEach(a => a.classList.toggle("active", a.dataset.route === (view === "read" ? "facts" : view)));
@@ -1235,8 +1386,7 @@ $("#factSearch").addEventListener("input", e => { state.q = e.target.value; stat
 $("#moreBtn").addEventListener("click", () => { state.shown += CONFIG.PAGE_SIZE; renderArchive(); });
 $("#linkSearch").addEventListener("input", e => { state.linkQ = e.target.value; renderTeachers(); });
 $("#resSearch").addEventListener("input", e => { state.resQ = e.target.value; renderResources(); });
-$("#resGrades").addEventListener("click", e => { const b = e.target.closest("[data-rg]"); if (b) { state.resGrade = b.dataset.rg; renderResources(); } });
-$("#resCats").addEventListener("click", e => { const b = e.target.closest("[data-rc]"); if (b) { state.resCat = b.dataset.rc; renderResources(); } });
+$("#resTabs").addEventListener("click", e => { const b = e.target.closest("[data-rc]"); if (b) { state.resCat = b.dataset.rc; renderResources(); } });
 document.querySelector(".seg").addEventListener("click", e => { const b = e.target.closest("[data-tz]"); if (b) { state.tz = b.dataset.tz; renderTeachers(); } });
 $("#wsGrades").addEventListener("click", e => { const b = e.target.closest("[data-wg]"); if (b) { state.wsGrade = b.dataset.wg; renderWsList(); } });
 $("#wsTerms").addEventListener("click", e => { const b = e.target.closest("[data-wt]"); if (b) { state.wsTerm = b.dataset.wt; renderWsList(); } });
@@ -1248,6 +1398,48 @@ $("#wsList").addEventListener("click", async e => {
   b.disabled = true;
   try { await wsCall({ action: "delete", id }); state.ws = state.ws.filter(f => f.id !== id); state.wsDel = ""; renderWsList(); }
   catch (err) { b.disabled = false; b.textContent = wsError(err); }
+});
+$("#pblLock").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = $("#pblPass").value.trim(), err = $("#pblLockErr");
+  if (!v) return;
+  if (!window.crypto?.subtle) { err.textContent = t("noCrypto"); return; }
+  if (await sha256(v) === CONFIG.TEACHER_PASSCODE_HASH) {
+    state.unlocked = true; state.pass = v; state.wsErr = "";
+    try { sessionStorage.setItem("sd_teacher", CONFIG.TEACHER_PASSCODE_HASH); sessionStorage.setItem("sd_pass", v); } catch (e) {}
+    $("#pblPass").value = ""; err.textContent = "";
+    renderResources();
+  } else {
+    err.textContent = t("wrong");
+    const box = $("#pblLock"); box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
+  }
+});
+$("#pblForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#pblMsg"), btn = $("#pblSubmit"), file = $("#pblFile").files[0];
+  const show = (txt, ok) => { msg.textContent = txt; msg.className = "ws-msg " + (ok ? "ok" : "bad"); };
+  const title = $("#pblTitle").value.trim(), teacher = $("#pblTeacher").value.trim();
+  if (!title) return show(t("wsErr").NO_TITLE);
+  if (!file) return show(t("wsErr").NO_FILE);
+  if (file.size > CONFIG.WORKSHEET_MAX_MB * 1048576) return show(t("wsErr").TOO_BIG);
+  btn.disabled = true; btn.textContent = t("wsSending"); msg.textContent = "";
+  try {
+    const data = await new Promise((ok, bad) => { const r = new FileReader();
+      r.onload = () => ok(String(r.result).split(",")[1] || ""); r.onerror = bad; r.readAsDataURL(file); });
+    await wsCall({ action: "upload", grade: "中三", term: PBL_CAT, title, teacher, filename: file.name, mime: file.type, data });
+    show(t("wsDone"), true);
+    $("#pblTitle").value = ""; $("#pblFile").value = "";
+    state.ws = null; state.wsErr = ""; loadWs();
+  } catch (err) { show(wsError(err)); if (!state.unlocked) renderResources(); }
+  btn.disabled = false; btn.textContent = t("wsSend");
+});
+$("#pblFiles").addEventListener("click", async e => {
+  const b = e.target.closest("[data-pbldel]"); if (!b) return;
+  const id = b.dataset.pbldel;
+  if (state.wsDel !== id) { state.wsDel = id; renderPblFiles(); return; }
+  b.disabled = true;
+  try { await wsCall({ action: "delete", id }); state.ws = state.ws.filter(f => f.id !== id); state.wsDel = ""; renderPblFiles(); renderWsList(); }
+  catch (err) { b.disabled = false; b.textContent = wsError(err); if (!state.unlocked) renderResources(); }
 });
 $("#wsForm").addEventListener("submit", async e => {
   e.preventDefault();
